@@ -140,7 +140,7 @@
                     <h5 class="mb-0">Ad Accounts</h5>
                     <div>
                         <input type="text" class="form-control d-inline-block" style="width: 200px;" placeholder="Search ad accounts">
-                        <button class="btn btn-primary ml-2">Create Ad Account +</button>
+                        <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#createAdAccountModal">Create Ad Account +</button>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -179,6 +179,36 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-secondary btn-sm" disabled>Top Up</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    #10145-ebc~Organic_Foods<br>
+                                    <small>id - 618078337858390</small><br>
+                                    <a href="#">https://www.facebook.com/share/16FADs9oqo/</a>
+                                </td>
+                                <td>
+                                    Feet Health<br>
+                                    11490028166224102<br>
+                                    Rifat Tech Corner<br>
+                                    9894028628572008<br>
+                                    Dfg 1<br>
+                                    1121608929340226
+                                </td>
+                                <td>$296.89</td>
+                                <td>$1203.12</td>
+                                <td>$1500.01</td>
+                                <td><span class="badge badge-success" style="background:#d4f8e8;color:#1fa463;">Active</span></td>
+                                <td>
+                                    <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm topup-btn"
+                                        data-account="#10145-ebc~Organic_Foods - 618078337858390"
+                                        data-toggle="modal"
+                                        data-target="#topupModal">
+                                        Top Up
+                                    </button>
                                 </td>
                             </tr>
                             <!-- Repeat for other ad accounts -->
@@ -346,6 +376,91 @@
     </div>
     </div>
 
+    <!-- Create New Ad Account Modal -->
+    <div class="modal fade" id="createAdAccountModal" tabindex="-1" role="dialog" aria-labelledby="createAdAccountModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 18px; max-width: 430px; margin: auto;">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title w-100 text-center font-weight-bold" id="createAdAccountModalLabel" style="font-size: 1.5rem;">Create new ad account</h5>
+            <button type="button" class="close position-absolute" style="right: 18px;" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="font-size: 2rem;">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pt-0">
+            <form id="adAccountForm" autocomplete="off">
+              <div class="form-group">
+                <label class="mb-1">Suggested Ads Account Name</label>
+                <input type="text" class="form-control" placeholder="Insert suggested ads account name" required>
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Client's BM ID</label>
+                <input type="text" class="form-control" placeholder="Insert BM ID of client" required>
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Timezone</label>
+                <select class="form-control" required>
+                  <option value="">Choose timezone...</option>
+                  <option value="Asia/Dhaka">Asia/Dhaka (GMT+6)</option>
+                  <option value="Asia/Kolkata">Asia/Kolkata (GMT+5:30)</option>
+                  <option value="America/New_York">America/New_York (GMT-5)</option>
+                  <!-- Add more as needed -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="mb-1">FB Page Link</label>
+                <input type="url" class="form-control" placeholder="Insert fb page Link" required>
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Monthly Budget</label>
+                <input type="number" class="form-control" placeholder="$" min="0" required>
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Campaign Start Date</label>
+                <input type="date" class="form-control" placeholder="Enter the campaign start date for the ad account" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block font-weight-bold" style="font-size: 1.1rem;">
+                Submit Request &nbsp; <i class="fas fa-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Up Account Balance Modal -->
+    <div class="modal fade" id="topupModal" tabindex="-1" role="dialog" aria-labelledby="topupModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 18px; max-width: 500px; margin: auto;">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title w-100 text-center font-weight-bold" id="topupModalLabel" style="font-size: 1.3rem;">Top up account balance</h5>
+            <button type="button" class="close position-absolute" style="right: 18px;" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="font-size: 2rem;">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pt-0">
+            <form id="topupForm" autocomplete="off">
+              <div class="form-group">
+                <label class="mb-1">Add Account</label>
+                <input type="text" class="form-control" id="topupAccount" readonly>
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Amount</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input type="number" class="form-control" id="topupAmount" placeholder="Enter amount" min="0" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block font-weight-bold" style="font-size: 1.1rem;">
+                Top Up
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Wizard Stepper Styles -->
 
 @endsection
@@ -449,6 +564,22 @@
 
         // Initial state
         setStep(1);
+
+        // When Top Up button is clicked, fill the modal with the account info
+        $('.table').on('click', '.topup-btn', function() {
+            var account = $(this).data('account');
+            $('#topupAccount').val(account);
+            $('#topupAmount').val('');
+        });
+
+        // Handle form submission (AJAX or just close modal for now)
+        $('#topupForm').on('submit', function(e) {
+            e.preventDefault();
+            // You can add AJAX here
+            $('#topupModal').modal('hide');
+            // Optionally, show a success message
+            alert('Top up request submitted!');
+        });
         });
     </script>
 @endpush
@@ -483,6 +614,32 @@
         border-bottom: none !important;
         border-right: 1px solid #28a745 !important; /* Bootstrap's success color */
       }
+    }
+    #createAdAccountModal .modal-content {
+        box-shadow: 0 8px 32px rgba(60,60,100,0.18);
+        border-radius: 18px;
+    }
+    #createAdAccountModal .form-control:focus {
+        border-color: #23408e;
+        box-shadow: 0 0 0 0.1rem rgba(35,64,142,.15);
+    }
+    #createAdAccountModal .btn-primary {
+        background: #23408e;
+        border-color: #23408e;
+        border-radius: 8px;
+    }
+    #topupModal .modal-content {
+        box-shadow: 0 8px 32px rgba(60,60,100,0.18);
+        border-radius: 18px;
+    }
+    #topupModal .form-control:focus {
+        border-color: #23408e;
+        box-shadow: 0 0 0 0.1rem rgba(35,64,142,.15);
+    }
+    #topupModal .btn-primary {
+        background: #23408e;
+        border-color: #23408e;
+        border-radius: 8px;
     }
     </style>
 @endpush
