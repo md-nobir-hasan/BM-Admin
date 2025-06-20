@@ -17,7 +17,7 @@
 
         {{-- Going frontend home page menu --}}
         <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link" target="_blank">
+            <a href="{{ route('admin') }}" class="nav-link" target="_blank">
                 <i class="fas fa-external-link-alt" title="Go to Home Page"></i>
             </a>
         </li>

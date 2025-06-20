@@ -1,38 +1,19 @@
 <?php
 
-use App\Http\Controllers\LandingPageSectionController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AddToCartController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\GoogleTagController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PixelTagController;
-use App\Http\Controllers\ProductColorController;
-use App\Http\Controllers\ProductSizeController;
-use App\Http\Controllers\SliderController;
+
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CompanyDetailsController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FrontendController;
-use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderStatusController;
-use App\Http\Controllers\SubcatController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\CompanyDetailsController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ImageGalleryController;
 use App\Http\Controllers\MainKeyController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SiteSettingController;
-use App\Http\Controllers\WishlishtController;
 use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ConfirmedOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,44 +25,6 @@ use App\Http\Controllers\ConfirmedOrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/landing/{slug}', [FrontendController::class, 'landing'])->name('landing');
-
-//frontend route
-Route::get('/', [FrontendController::class, 'index'])->name('home');
-Route::get('/ajax-fetch', [AjaxController::class, 'ajaxFetch'])->name('ajax-fetch');
-
-Route::get('/redirect', [FrontendController::class, 'redirect']);
-
-Route::get('/category-product/{id}', [FrontendController::class, 'categoryWiseShow'])->name('category');
-Route::get('/product/sub-category/{id}/{id2}', [FrontendController::class, 'subcatWiseShow'])->name('product.subcat');
-Route::post('single/order', [FrontendController::class, 'store'])->name('single.store');
-Route::get('/all_category', [FrontendController::class, 'all_category'])->name('all-category');
-Route::get('/all_product', [FrontendController::class, 'all_product'])->name('all_product');
-Route::post('order/store', [OrderController::class, 'store'])->name('order.store');
-Route::get('product/fetch/{id}', [FrontendController::class, 'productFetch'])->name('product.fetch');
-Route::get('order/thank-you-page/{order}', [OrderController::class, 'thanks'])->name('order.thanks');
-Route::get('order/checkout/{slug}', [OrderController::class, 'checkout'])->name('checkout');
-Route::get('/product-details/{id}/', [FrontendController::class, 'product_details'])->name('product_details');
-Route::post('/review', [FrontendController::class, 'review'])->name('review');
-
-
-
-//Blog (Frontend)
-Route::prefix('blog')->name('blog.')->group(function(){
-    Route::get('/list', [FrontendController::class, 'list'])->name('list');
-    Route::get('/details/{slug}', [FrontendController::class, 'details'])->name('details');
-});
-
-//Pages
-Route::get('/pages/{title}', [FrontendController::class, 'page'])->name('page');
-//Add to Cart
-Route::resource('addtocart', AddToCartController::class);
-
-//Wishlist
-Route::resource('wishlist', WishlishtController::class);
-//end frontend route
-
 
 
 // Route for  both
@@ -99,10 +42,9 @@ Route::controller(AjaxController::class)->prefix('ajax')->name('ajax.')->group(f
 Route::group(['middleware' => ['auth']], function () {
 
     // Admin home
-    Route::get('/admin', [HomeController::class, 'home'])->name('admin');
+    Route::get('/admin', [HomeController::class, 'home'])->name('home');
+    Route::get('/', [HomeController::class, 'home'])->name('admin');
 
-    //Landing page sections
-    // Route::get('landing-page-section/{id}', [LandingPageSectionController::class, 'edit'])->name('lp.edit');
 
     //company details
     Route::get('company-details/index', [CompanyDetailsController::class, 'create'])->name('company-details.index');
@@ -112,41 +54,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('company-details/update', [CompanyDetailsController::class, 'update'])->name('company-details.update');
     Route::post('company-details/delete/{id}', [CompanyDetailsController::class, 'destroy'])->name('company-details.destroy');
 
-    //Category Mangement
-    Route::group(['as' => 'category.', 'prefix' => 'category'], function () {
-        Route::get('/index', [CategoryController::class, 'index'])->name('index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('create');
-        Route::post('/store', [CategoryController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
-        Route::patch('/update/{id}', [CategoryController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
-    });
-
-    //Landing page sections
-    Route::group(['as' => 'lp.', 'prefix' => 'landing-page-section'], function () {
-        Route::get('/edit/{id}', [LandingPageSectionController::class, 'edit'])->name('edit');
-        Route::post('/update/{product_id}', [LandingPageSectionController::class, 'update'])->name('update');
-    });
-
-    //Sub-category Mangement
-    Route::group(['as' => 'subcat.', 'prefix' => 'subcat'], function () {
-        Route::get('/index', [SubcatController::class, 'index'])->name('index');
-        Route::get('/create', [SubcatController::class, 'create'])->name('create');
-        Route::post('/store', [SubcatController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [SubcatController::class, 'edit'])->name('edit');
-        Route::patch('/update/{id}', [SubcatController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [SubcatController::class, 'destroy'])->name('destroy');
-    });
-
-    //Brand Mangement
-    Route::group(['as' => 'brand.', 'prefix' => 'brand'], function () {
-        Route::get('/index', [BrandController::class, 'index'])->name('index');
-        Route::get('/create', [BrandController::class, 'create'])->name('create');
-        Route::post('/store', [BrandController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [BrandController::class, 'edit'])->name('edit');
-        Route::patch('/update/{id}', [BrandController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [BrandController::class, 'destroy'])->name('destroy');
-    });
 
     //Blog Management
     Route::resource('blog',BlogController::class);
@@ -161,106 +68,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/delete/{id}', [ShippingController::class, 'destroy'])->name('destroy');
     });
 
-    //PRODUCT MANAGEMENT
-    Route::group(['as' => 'product.', 'prefix' => 'product'], function () {
-        Route::get('/index', [ProductController::class, 'index'])->name('index');
-        Route::get('/create', [ProductController::class, 'create'])->name('create');
-        Route::post('/store', [ProductController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [ProductController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [ProductController::class, 'destroy'])->name('destroy');
-        Route::get('/show_gallery/{id}', [ProductController::class, 'show_gallery'])->name('product_gallery');
-
-    });
-
-    //Order Management
-    Route::group(['as' => 'order.', 'prefix' => 'order'], function () {
-        Route::get('/index', [OrderController::class, 'index'])->name('index');
-        Route::get('/create', [OrderController::class, 'create'])->name('create');
-        Route::get('/edit/{id}', [OrderController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [OrderController::class, 'update'])->name('update');
-        Route::get('/trash', [OrderController::class, 'trash'])->name('trash');
-        Route::get('/delete/{id}', [OrderController::class, 'delete'])->name('delete');
-        Route::get('/restore/{id}', [OrderController::class, 'restore'])->name('restore');
-        Route::get('/destroy/{id}', [OrderController::class, 'destroy'])->name('destroy');
-        Route::get('view/{order_number}', [OrderController::class, 'view'])->name('view');
-        //send to courier
-        Route::get('/sendToCourier/{id}', [OrderController::class, 'sendToCourier'])->name('sendToCourier');
-        Route::get('/sendToPathao/{id}', [OrderController::class, 'sendToPathao'])->name('sendToPathao');
-
-
-    });
-
-    //Payment system
-    Route::group(['as' => 'payment.', 'prefix' => 'payment'], function () {
-
-        Route::get('/index', [PaymentController::class, 'index'])->name('index');
-        Route::get('/create', [PaymentController::class, 'create'])->name('create');
-        Route::post('/insert', [PaymentController::class, 'insert'])->name('insert');
-        Route::get('/payment_delete/{id}', [PaymentController::class, 'payment_delete'])->name('payment_delete');
-        Route::get('/edite/{id}', [PaymentController::class, 'edite'])->name('edite');
-        Route::post('/update/{id}', [PaymentController::class, 'update'])->name('update');
-
-    });
-
-    //Order Status
-    Route::group(['as' => 'order-status.', 'prefix' => 'order-status'], function () {
-        Route::get('/index', [OrderStatusController::class, 'index'])->name('index');
-        Route::get('/create', [OrderStatusController::class, 'create'])->name('create');
-        Route::post('/store', [OrderStatusController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [OrderStatusController::class, 'edit'])->name('edit');
-        Route::patch('/update', [OrderStatusController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [OrderStatusController::class, 'destroy'])->name('destroy');
-        Route::get('/ajax', [OrderStatusController::class, 'ajax'])->name('ajax');
-        Route::get('/order-status-assign', [OrderStatusController::class, 'OrderStatusAssign'])->name('order-status-assign');
-    });
-
-    //Order Status
-    Route::group(['as' => 'customer.', 'prefix' => 'customer'], function () {
-        Route::get('/customer', [ContactController::class, 'customer'])->name('customer');
-        Route::get('/view/{id}', [ContactController::class, 'view'])->name('view');
-        Route::get('/delete/{id}', [ContactController::class, 'delete'])->name('delete');
-    });
-
-    //Slider images
-    Route::group(['as' => 'slider.', 'prefix' => 'slider'], function () {
-        Route::get('/index', [SliderController::class, 'index'])->name('index');
-        Route::get('/create', [SliderController::class, 'create'])->name('create');
-        Route::post('/store', [SliderController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [SliderController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [SliderController::class, 'update'])->name('update');
-        Route::get('/destroy/{id}', [SliderController::class, 'destroy'])->name('destroy');
-    });
-
-    //Banner images
-    Route::group(['as' => 'banner.', 'prefix' => 'banner'], function () {
-        Route::get('/index', [BannerController::class, 'index'])->name('index');
-        Route::get('/create', [BannerController::class, 'create'])->name('create');
-        Route::post('/store', [BannerController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [BannerController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [BannerController::class, 'update'])->name('update');
-        Route::get('/destroy/{id}', [BannerController::class, 'destroy'])->name('destroy');
-    });
-
-    //Product size
-    Route::group(['as' => 'size.', 'prefix' => 'size'], function () {
-        Route::get('/index', [ProductSizeController::class, 'index'])->name('index');
-        Route::get('/create', [ProductSizeController::class, 'create'])->name('create');
-        Route::post('/store', [ProductSizeController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ProductSizeController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [ProductSizeController::class, 'update'])->name('update');
-        Route::get('/destroy/{id}', [ProductSizeController::class, 'destroy'])->name('destroy');
-    });
-
-    //Product color
-    Route::group(['as' => 'color.', 'prefix' => 'color'], function () {
-        Route::get('/index', [ProductColorController::class, 'index'])->name('index');
-        Route::get('/create', [ProductColorController::class, 'create'])->name('create');
-        Route::post('/store', [ProductColorController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ProductColorController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [ProductColorController::class, 'update'])->name('update');
-        Route::get('/destroy/{id}', [ProductColorController::class, 'destroy'])->name('destroy');
-    });
 
     //Image Management
     Route::group(['as' => 'img.', 'prefix' => 'image'], function () {
@@ -271,29 +78,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [ImageGalleryController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [ImageGalleryController::class, 'destroy'])->name('destroy');
     });
-
-    //Pixel tag
-    Route::group(['as' => 'pixel.', 'prefix' => 'pixel'], function () {
-        Route::get('/index', [PixelTagController::class, 'index'])->name('index');
-        Route::get('/create', [PixelTagController::class, 'create'])->name('create');
-        Route::post('/store', [PixelTagController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [PixelTagController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [PixelTagController::class, 'update'])->name('update');
-        Route::get('/destroy/{id}', [PixelTagController::class, 'destroy'])->name('destroy');
-    });
-
-    //Google tag
-    Route::group(['as' => 'google.', 'prefix' => 'google'], function () {
-        Route::get('/index', [GoogleTagController::class, 'index'])->name('index');
-        Route::get('/create', [GoogleTagController::class, 'create'])->name('create');
-        Route::post('/store', [GoogleTagController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [GoogleTagController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [GoogleTagController::class, 'update'])->name('update');
-        Route::get('/destroy/{id}', [GoogleTagController::class, 'destroy'])->name('destroy');
-    });
-
-    //Page
-    Route::resource('/page', PageController::class);
 
     //optimize clear
     Route::get('/optimize-clear', [SettingController::class, 'optimizeClear'])->name('optimize-clear');
@@ -380,36 +164,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/destroy/{review}', [ReviewController::class, 'destroy'])->name('destroy');
     });
 
-    // Confirmed Order Management
-    Route::group(['as' => 'confirmed-order.', 'prefix' => 'confirmed-order'], function () {
-        Route::get('/index', [ConfirmedOrderController::class, 'index'])->name('index');
-        Route::get('/create', [ConfirmedOrderController::class, 'create'])->name('create');
-        Route::post('/store', [ConfirmedOrderController::class, 'store'])->name('store');
-        Route::get('/show/{id}', [ConfirmedOrderController::class, 'show'])->name('show');
-        Route::get('/edit/{id}', [ConfirmedOrderController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [ConfirmedOrderController::class, 'update'])->name('update');
-        Route::delete('/destroy/{id}', [ConfirmedOrderController::class, 'destroy'])->name('destroy');
-        Route::get('/print-labels', [ConfirmedOrderController::class, 'printLabels'])->name('print-labels');
-    });
 
-    Route::delete('confirmed-order/bulk-delete', [ConfirmedOrderController::class, 'bulkDelete'])->name('confirmed-order.bulk-delete');
 
-    Route::get('confirmed-order/{id}/item/{index}', [ConfirmedOrderController::class, 'getItem'])
-        ->name('confirmed-order.get-item');
-    Route::post('confirmed-order/{id}/update-item', [ConfirmedOrderController::class, 'updateItem'])
-        ->name('confirmed-order.update-item');
 
-    Route::delete('confirmed-order/{orderId}/row/{row}', [ConfirmedOrderController::class, 'deleteRow']);
-    Route::get('confirmed-order/{orderId}/row/{row}', [ConfirmedOrderController::class, 'getItem']);
-
-    Route::get('confirmed-order/print-single-label/{orderId}/{row}', [ConfirmedOrderController::class, 'printSingleLabel'])
-        ->name('confirmed-order.print-single-label');
 
 });
 
-//Contact frontend code
-Route::group(['as' => 'contact.', 'prefix' => 'contact'], function () {
-    Route::post('/contact', [ContactController::class, 'contact'])->name('contact');
-});
 
 require __DIR__ . '/auth.php';
