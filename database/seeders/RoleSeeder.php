@@ -14,7 +14,14 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-       $n =["name" => "Developer"]; 
+       $n =[
+            [
+                "name" => "Super Admin"
+            ],
+            [
+                "name" => "Customer"
+            ]
+       ];
        DB::table('roles')->insert($n);
     }
 }

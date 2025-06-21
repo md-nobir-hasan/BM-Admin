@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\CompanyDetailsController;
-use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ImageGalleryController;
 use App\Http\Controllers\MainKeyController;
@@ -42,7 +42,6 @@ Route::controller(AjaxController::class)->prefix('ajax')->name('ajax.')->group(f
 Route::group(['middleware' => ['auth']], function () {
 
     // Admin home
-    Route::get('/admin', [HomeController::class, 'home'])->name('home');
     Route::get('/', [HomeController::class, 'home'])->name('admin');
 
 
@@ -58,14 +57,13 @@ Route::group(['middleware' => ['auth']], function () {
     //Blog Management
     Route::resource('blog',BlogController::class);
 
-    //Shippin Mangement
-    Route::group(['as' => 'shipping.', 'prefix' => 'shipping'], function () {
-        Route::get('/index', [ShippingController::class, 'index'])->name('index');
-        Route::get('/create', [ShippingController::class, 'create'])->name('create');
-        Route::post('/store', [ShippingController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ShippingController::class, 'edit'])->name('edit');
-        Route::patch('/update/{id}', [ShippingController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [ShippingController::class, 'destroy'])->name('destroy');
+    //Add Ballance to wallet Mangement
+    Route::group(['as' => 'wallet.', 'prefix' => 'wallet'], function () {
+        Route::get('/index', [WalletController::class, 'index'])->name('index');
+        Route::post('balance/store', [WalletController::class, 'store'])->name('balance.store');
+        Route::get('/edit/{id}', [WalletController::class, 'edit'])->name('edit');
+        Route::patch('/update/{id}', [WalletController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [WalletController::class, 'destroy'])->name('destroy');
     });
 
 

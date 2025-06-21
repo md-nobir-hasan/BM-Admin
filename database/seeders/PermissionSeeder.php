@@ -14,6 +14,7 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $n = [
+                //Super Admin permissions
                 ['role_id' => 1,'feature_id' => 1,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
                 ['role_id' => 1,'feature_id' => 2,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
                 ['role_id' => 1,'feature_id' => 3,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
@@ -28,24 +29,6 @@ class PermissionSeeder extends Seeder
                 ['role_id' => 1,'feature_id' => 12,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
                 ['role_id' => 1,'feature_id' => 13,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
                 ['role_id' => 1,'feature_id' => 14,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 15,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 16,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 17,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 18,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 19,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 20,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 21,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 22,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 23,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 24,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 25,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 26,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 27,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 28,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 29,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 30,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 31,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
-                ['role_id' => 1,'feature_id' => 32,'add' => '1','show' => '2','edit' => '3','delete' => '4'],
             ];
 
             DB::table('permissions')->insert($n);

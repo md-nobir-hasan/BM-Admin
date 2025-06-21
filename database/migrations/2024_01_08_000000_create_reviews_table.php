@@ -10,7 +10,6 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('reviewer_name')->nullable();
             $table->string('rating')->nullable();
             $table->string('review_text')->nullable();
@@ -18,7 +17,7 @@ class CreateReviewsTable extends Migration
             $table->timestamps();
         });
     }
-    
+
 
     public function down()
     {

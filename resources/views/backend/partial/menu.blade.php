@@ -1,6 +1,6 @@
 @if (check('Home'))
     <li class="nav-item">
-        <a href="{{ route('admin') }}" class="nav-link {{ Request::is('/') || Request::is('home') ? 'active' : '' }}">
+        <a href="{{ route('admin') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
             <i class="nav-icon fas fa-home"></i>
             <p>Home</p>
         </a>
@@ -11,26 +11,26 @@
 
 
 {{-- Shipping Management  --}}
-@if ($n =check('Shipping'))
-    <li class="nav-item {{ Request::is('shipping/*') ? 'menu-open' : '' }}">
+@if ($n =check('Wallet'))
+    <li class="nav-item {{ Request::is('wallet/*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
             <i class="fa-solid fa-truck-fast"></i>
             <p>
-                Shipping
+                Customer Wallets
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
             @if ($n->show)
                 <li class="nav-item">
-                    <a href="{{ route('shipping.index') }}"
-                        class="nav-link {{ Request::is('shipping/index') ? 'active' : '' }}">
+                    <a href="{{ route('wallet.index') }}"
+                        class="nav-link {{ Request::is('wallet/index') ? 'active' : '' }}">
                         <i class="nav-icon far fa-circle"></i>
-                        <p>Show Shipping</p>
+                        <p>All Wallets</p>
                     </a>
                 </li>
             @endif
-            @if ($n->add)
+            {{-- @if ($n->add)
                 <li class="nav-item">
                     <a href="{{ route('shipping.create') }}"
                         class="nav-link {{ Request::is('shipping/create') ? 'active' : '' }}">
@@ -38,7 +38,7 @@
                         <p>Add Shipping</p>
                     </a>
                 </li>
-            @endif
+            @endif --}}
 
         </ul>
     </li>

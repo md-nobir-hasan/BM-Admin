@@ -120,7 +120,7 @@ class CompanyDetailsController extends Controller
             return redirect()->route('admin')->with('msg','<script> alert("Successfully Set your website setting");</script>');
         }
 
-        return redirect()->route('home')->with('msg','<script> alert("Successfully Set your website setting");</script>');
+        return redirect()->route('admin')->with('msg','<script> alert("Successfully Set your website setting");</script>');
     }
 
     /**

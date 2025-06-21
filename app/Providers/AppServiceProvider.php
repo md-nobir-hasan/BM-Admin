@@ -42,11 +42,6 @@ class AppServiceProvider extends ServiceProvider
             view()->share('cart_products', $cart_products);
             view()->share('site_info', $site_info);
             view()->share('site_contact_info', $site_contact_info);
-
-            $n['pages'] = Page::all();
-            // $n['google_tag'] = GoogleTag::first();
-            // $n['pixel_tag'] = PixelTag::first();
-            view()->share($n);
         }
         //    if(serviceCheck('Wishlist')){
         //     if( Schema::hasTable('wishlists')){

@@ -21,13 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(userSeeder::class);
         $this->call(SiteServiceSeeder::class);
         $this->call(SiteSettingSeeder::class);
-        $this->call(categorySeeder::class);
-        $this->call(ColorSeeder::class);
-        $this->call(SizeSeeder::class);
-        $this->call(ShippingSeeder::class);
-        $this->call(PaymentSeeder::class);
         $this->call(CompanyInfoSeeder::class);
-        $this->call(SliderSeeder::class);
-        $this->call(OrderStatusSeeder::class);
     }
 }

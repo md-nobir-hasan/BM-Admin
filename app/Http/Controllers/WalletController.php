@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreWalletRequest;
 use Illuminate\Http\Request;
-use App\Models\Shipping;
+use App\Models\Wallet;
 use App\Models\Coupon;
 
-class ShippingController extends Controller
+class WalletController extends Controller
 {
 
-    public function __construct() {
-       // $this->middleware(['auth',"check:Shipping"]);
-    }
+
 
     /**
      * Display a listing of the resource.
@@ -20,12 +19,12 @@ class ShippingController extends Controller
      */
     public function index()
     {
-        if(!check('Shipping')->show){
+        if(!check('Wallet')->show){
             return back();
         }
 
-        $shipping=Shipping::orderBy('id','DESC')->paginate(10);
-        return view('backend.pages.shipping.index')->with('shippings',$shipping);
+        $Wallet=Wallet::orderBy('id','DESC')->paginate(10);
+        return view('backend.pages.wallet.index')->with('Wallets',$Wallet);
     }
 
     /**
@@ -35,11 +34,11 @@ class ShippingController extends Controller
      */
     public function create()
     {
-        if(!check('Shipping')->add){
+        if(!check('Wallet')->add){
             return back();
         }
 
-        return view('backend.pages.shipping.create');
+        return view('backend.pages.wallet.create');
     }
 
     /**
@@ -48,27 +47,28 @@ class ShippingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWalletRequest $request)
     {
-        if(!check('Shipping')->add){
-            return back();
-        }
+        // if(!check('Wallet')?->add){
+        //     return back();
+        // }
 
-        $this->validate($request,[
-            'type'=>'string|required',
-            'price'=>'nullable|numeric',
-            'status'=>'required|in:active,inactive'
-        ]);
-        $data=$request->all();
+        $data = $request->validated();
+        $data['user_id'] = auth()->user()->id;
+        $data['is_approved'] = false;
+
+        if($request->has('ss')){
+            
+        }
         // return $data;
-        $status=Shipping::create($data);
+        $status=Wallet::create($data);
         if($status){
-            request()->session()->flash('success','Shipping successfully created');
+            request()->session()->flash('success','Wallet successfully created');
         }
         else{
             request()->session()->flash('error','Error, Please try again');
         }
-        return redirect()->route('shipping.index');
+        return back();
     }
 
     /**
@@ -90,15 +90,15 @@ class ShippingController extends Controller
      */
     public function edit($id)
     {
-        if(!check('Shipping')->edit){
+        if(!check('Wallet')->edit){
             return back();
         }
 
-        $shipping=Shipping::find($id);
-        if(!$shipping){
-            request()->session()->flash('error','Shipping not found');
+        $Wallet=Wallet::find($id);
+        if(!$Wallet){
+            request()->session()->flash('error','Wallet not found');
         }
-        return view('backend.pages.shipping.edit')->with('shipping',$shipping);
+        return view('backend.pages.wallet.edit')->with('Wallet',$Wallet);
     }
 
     /**
@@ -110,11 +110,11 @@ class ShippingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!check('Shipping')->edit){
+        if(!check('Wallet')->edit){
             return back();
         }
 
-        $shipping=Shipping::find($id);
+        $Wallet=Wallet::find($id);
         $this->validate($request,[
             'type'=>'string|required',
             'price'=>'nullable|numeric',
@@ -122,14 +122,14 @@ class ShippingController extends Controller
         ]);
         $data=$request->all();
         // return $data;
-        $status=$shipping->fill($data)->save();
+        $status=$Wallet->fill($data)->save();
         if($status){
-            request()->session()->flash('success','Shipping successfully updated');
+            request()->session()->flash('success','Wallet successfully updated');
         }
         else{
             request()->session()->flash('error','Error, Please try again');
         }
-        return redirect()->route('shipping.index');
+        return redirect()->route('wallet.index');
     }
 
     /**
@@ -140,23 +140,23 @@ class ShippingController extends Controller
      */
     public function destroy($id)
     {
-        if(!check('Shipping')->delete){
+        if(!check('Wallet')->delete){
             return back();
         }
 
-        $shipping=Shipping::find($id);
-        if($shipping){
-            $status=$shipping->delete();
+        $Wallet=Wallet::find($id);
+        if($Wallet){
+            $status=$Wallet->delete();
             if($status){
-                request()->session()->flash('success','Shipping successfully deleted');
+                request()->session()->flash('success','Wallet successfully deleted');
             }
             else{
                 request()->session()->flash('error','Error, Please try again');
             }
-            return redirect()->route('shipping.index');
+            return redirect()->route('wallet.index');
         }
         else{
-            request()->session()->flash('error','Shipping not found');
+            request()->session()->flash('error','Wallet not found');
             return redirect()->back();
         }
     }
