@@ -61,9 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['as' => 'wallet.', 'prefix' => 'wallet'], function () {
         Route::get('/index', [WalletController::class, 'index'])->name('index');
         Route::post('balance/store', [WalletController::class, 'store'])->name('balance.store');
-        Route::get('/edit/{id}', [WalletController::class, 'edit'])->name('edit');
+        Route::get('balances/edit/{id}', [WalletController::class, 'edit'])->name('balance.edit');
         Route::patch('/update/{id}', [WalletController::class, 'update'])->name('update');
         Route::get('/delete/{id}', [WalletController::class, 'destroy'])->name('destroy');
+        Route::put('/{id}/ajax-update', [WalletController::class, 'ajaxUpdate'])->name('ajaxUpdate');
     });
 
 

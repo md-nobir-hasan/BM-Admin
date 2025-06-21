@@ -17,7 +17,12 @@ class Wallet extends Model
 
     public function getStatusFormattedAttribute()
     {
-        return $this->status == 1 ? 'Active' : 'Inactive';
+        return match($this->status){
+            1 => 'Approved',
+            2 => 'Pending',
+            3 => 'Rejected',
+            default => 'Unknown',
+        };
     }
 }
 

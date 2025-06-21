@@ -110,8 +110,11 @@
                             <i class="fas fa-wallet fa-2x text-primary mr-2"></i>
                             <span>Wallet Balance</span>
                         </div>
-                        <h4>$0.00</h4>
-                        <small>Last deposit: 05 Jun 2025</small>
+                        <h4>${{$wallet->sum('amount')}}</h4>
+                        @php
+                            $lastDeposit = $wallet->sortByDesc('created_at')->first();
+                        @endphp
+                        <small>Last deposit: {{ $lastDeposit ? $lastDeposit->created_at->format('d M Y') : 'N/A' }}</small>
                     </div>
                 </div>
             </div>
@@ -271,7 +274,7 @@
                         <div class="row ">
                             <!-- Left: Main Content -->
                             <div class="col-md-8 card p-3">
-                                <form action="{{route('wallet.balance.store')}}" method="POST">
+                                <form action="{{route('wallet.balance.store')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
                                     <!-- Step 1: Bank Info -->

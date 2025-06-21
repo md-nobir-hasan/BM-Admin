@@ -15,10 +15,10 @@ class CompanyInfoSeeder extends Seeder
     public function run()
     {
         $n = [
-            ['name' => 'KasetBD', 'title' => 'KasetBD', 'logo' => 'images/seeder/logo.png', 'address' => 'Mirpur,Dhaka'],
+            ['name' => 'BM-Admin', 'title' => 'BM-Admin', 'logo' => 'images/seeder/logo.png', 'address' => 'Agargoan,Dhaka'],
         ];
         $n2 = [
-            ['phone' => '01786743293', 'whatsapp' => '01786743293', 'facebook_group_link' => '', 'email' => 'support@kasetbd.com'],
+            ['phone' => '01730887901', 'whatsapp' => '01730887901', 'facebook_group_link' => '', 'email' => 'support@bmadmin.com'],
         ];
 
         DB::table('company_infos')->insert($n);

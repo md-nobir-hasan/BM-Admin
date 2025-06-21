@@ -21,7 +21,7 @@ class CreateWalletTable extends Migration
             $table->string('amount');
             $table->string('trx_id')->nullable();
             $table->string('ss')->nullable();
-            $table->boolean('is_approved')->default(false);
+            $table->tinyInteger('status')->default(2);
             $table->timestamps();
             $table->softDeletes();
         });

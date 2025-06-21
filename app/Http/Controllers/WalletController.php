@@ -23,8 +23,9 @@ class WalletController extends Controller
             return back();
         }
 
-        $Wallet=Wallet::orderBy('id','DESC')->paginate(10);
-        return view('backend.pages.wallet.index')->with('Wallets',$Wallet);
+        $n['pending_balances']=Wallet::with('user')->where('status',2)->get();
+        $n['all_balances']=Wallet::with('user')->where('status','!=', 2)->paginate(10);
+        return view('backend.pages.wallet.index',$n);
     }
 
     /**
@@ -57,8 +58,11 @@ class WalletController extends Controller
         $data['user_id'] = auth()->user()->id;
         $data['is_approved'] = false;
 
-        if($request->has('ss')){
-            
+        if($request->hasFile('ss')){
+            $image = $request->file('ss');
+            $uniqueName = uniqid('receipt_', true) . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('receipt-copy', $uniqueName, 'public');
+            $data['ss'] = $path;
         }
         // return $data;
         $status=Wallet::create($data);
@@ -159,5 +163,23 @@ class WalletController extends Controller
             request()->session()->flash('error','Wallet not found');
             return redirect()->back();
         }
+    }
+
+    public function ajaxUpdate(Request $request, $id)
+    {
+        $wallet = Wallet::findOrFail($id);
+
+        $request->validate([
+            'amount' => 'required|numeric',
+            'trx_id' => 'required|string',
+            'status' => 'required|in:1,2,3',
+        ]);
+
+        $wallet->amount = $request->amount;
+        $wallet->trx_id = $request->trx_id;
+        $wallet->status = $request->status;
+        $wallet->save();
+
+        return response()->json(['success' => true, 'message' => 'Wallet updated successfully.']);
     }
 }

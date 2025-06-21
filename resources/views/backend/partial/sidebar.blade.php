@@ -2,8 +2,8 @@
     @php
         $company_info = App\Models\CompanyInfo::first();
     @endphp
-    <a href="{{ route('admin') }}" target="blank" class="brand-link">
-        <img src="@if (isset($company_info->logo)) {{ asset($company_info->logo) }}@else{{ asset('assets/images/default/site-logo.png') }} @endif"
+    <a href="{{ route('admin') }}" target="blank" class="brand-link text-center">
+        <img src="{{ asset($company_info->logo) }}"
             alt="" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-light">
             @if (isset($company_info->name))

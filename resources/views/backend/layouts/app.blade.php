@@ -34,6 +34,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper  py-md-5 px-md-5">
+            @include('backend.partial.flush-message')
             @yield('content')
         </div>
 
