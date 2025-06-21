@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class AdAccount extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'bm_id', 'balance', 'monthly_budget', 'total_spent', 'limit', 'fb_page_link1', 'fb_page_link2', 'fb_page_link3', 'fb_page_link4', 'fb_page_link5', 'campaign_start_date', 'status', 'deleted_at', 'created_at', 'updated_at','deleted_by','created_by','updated_by'];
+    protected $fillable = ['name','user_id', 'bm_id','credit_line','card_line',
+        'fb_page_link1', 'fb_page_link2', 'fb_page_link3', 'fb_page_link4', 'fb_page_link5',
+        'website_link1','website_link2',
+        'monthly_budget', 'campaign_start_date', 'balance', 'total_spent', 'limit',  'status',
+        'deleted_at', 'created_at', 'updated_at','deleted_by','created_by','updated_by'];
     protected $appends = ['status_formatted'];
 
     public function getStatusFormattedAttribute()
@@ -20,5 +24,9 @@ class AdAccount extends Model
             4 => 'Close',
             default => 'Unknown',
         };
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }

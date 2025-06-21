@@ -444,17 +444,48 @@
                     </button>
                 </div>
                 <div class="modal-body pt-0">
-                    <form id="adAccountForm" autocomplete="off">
+                    <form id="adAccountForm" autocomplete="off" action="{{route('ad_account.store')}}" method="post">
+                        @csrf
                         <div class="form-group">
-                            <label class="mb-1">Suggested Ads Account Name</label>
-                            <input type="text" class="form-control" placeholder="Insert suggested ads account name"
+                            <label class="mb-1">Suggested Ads Account Name<span class="text-danger">*</span></label>
+                            <input type="text" name="name" value="{{old('name')}}"
+                                class="form-control" placeholder="Insert suggested ads account name"
                                 required>
+                            @error('name')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
+
+                        {{-- BM ID --}}
                         <div class="form-group">
-                            <label class="mb-1">Client's BM ID</label>
-                            <input type="text" class="form-control" placeholder="Insert BM ID of client" required>
+                            <label class="mb-1">Client's BM ID<span class="text-danger">*</span></label>
+                            <input type="text" name="bm_id" value="{{old('bm_id')}}"
+                                 class="form-control" placeholder="Insert BM ID of client" required>
+                            @error('bm_id')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
+
+                        {{-- Credit line --}}
                         <div class="form-group">
+                            <label class="mb-1">Credit Line<span class="text-danger">*</span></label>
+                            <input type="text" name="credit_line" value="{{old('credit_line')}}"
+                                 class="form-control" placeholder="Insert Credit Line Here" required>
+                            @error('credit_line')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Card Line --}}
+                        <div class="form-group">
+                            <label class="mb-1">Card Line<span class="text-danger">*</span></label>
+                            <input type="text" name="card_line" value="{{old('card_line')}}"
+                                 class="form-control" placeholder="Insert Card Line Here" required>
+                            @error('card_line')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+                        {{-- <div class="form-group">
                             <label class="mb-1">Timezone</label>
                             <select class="form-control" required>
                                 <option value="">Choose timezone...</option>
@@ -463,19 +494,94 @@
                                 <option value="America/New_York">America/New_York (GMT-5)</option>
                                 <!-- Add more as needed -->
                             </select>
-                        </div>
+                        </div> --}}
+
+                        {{-- FB Page Link1 --}}
                         <div class="form-group">
-                            <label class="mb-1">FB Page Link</label>
-                            <input type="url" class="form-control" placeholder="Insert fb page Link" required>
+                            <label class="mb-1">FB Page Link 1<span class="text-danger">*</span></label>
+                            <input type="url" name="fb_page_link1" value="{{old('fb_page_link1')}}"
+                                 class="form-control" placeholder="Insert fb page link here" required>
+                            @error('fb_page_link1')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
+
+                        {{-- FB Page Link2 --}}
                         <div class="form-group">
-                            <label class="mb-1">Monthly Budget</label>
-                            <input type="number" class="form-control" placeholder="$" min="0" required>
+                            <label class="mb-1">FB Page Link 2</label>
+                            <input type="url" name="fb_page_link2" value="{{old('fb_page_link2')}}"
+                                 class="form-control" placeholder="Insert fb page link here" >
+                            @error('fb_page_link2')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
+
+                        {{-- FB Page Link3 --}}
+                        <div class="form-group">
+                            <label class="mb-1">FB Page Link 3</label>
+                            <input type="url" name="fb_page_link3" value="{{old('fb_page_link3')}}"
+                                 class="form-control" placeholder="Insert fb page link here" >
+                            @error('fb_page_link3')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        {{-- FB Page Link4 --}}
+                        <div class="form-group">
+                            <label class="mb-1">FB Page Link 4</label>
+                            <input type="url" name="fb_page_link4" value="{{old('fb_page_link4')}}"
+                                 class="form-control" placeholder="Insert fb page link here" >
+                            @error('fb_page_link4')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        {{-- FB Page Link5 --}}
+                        <div class="form-group">
+                            <label class="mb-1">FB Page Link 5</label>
+                            <input type="url" name="fb_page_link5" value="{{old('fb_page_link5')}}"
+                                 class="form-control" placeholder="Insert fb page link here">
+                            @error('fb_page_link5')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Website Link 1 --}}
+                        <div class="form-group">
+                            <label class="mb-1">Website Link 1<span class="text-danger">*</span></label>
+                            <input type="url" name="website_link1" value="{{old('website_link1')}}"
+                                 class="form-control" placeholder="Insert website link here" required>
+                            @error('website_link1')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Website Link 2 --}}
+                        <div class="form-group">
+                            <label class="mb-1">Website Link 2</label>
+                            <input type="url" name="website_link2" value="{{old('website_link2')}}"
+                                 class="form-control" placeholder="Insert website link here">
+                            @error('website_link2')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="mb-1">Monthly Budget<span class="text-danger">*</span> </label>
+                            <input type="number" name="monthly_budget" value="{{old('monthly_budget')}}" class="form-control" placeholder="$" min="0" required>
+                            @error('monthly_budget')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+
                         <div class="form-group">
                             <label class="mb-1">Campaign Start Date</label>
-                            <input type="date" class="form-control"
-                                placeholder="Enter the campaign start date for the ad account" required>
+                            <input type="date" name="campaign_start_date" value="{{old('campaign_start_date')}}" class="form-control"
+                                placeholder="Enter the campaign start date for the ad account">
+                            @error('campaign_start_date')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-primary btn-block font-weight-bold"
                             style="font-size: 1.1rem;">
@@ -669,7 +775,7 @@
         $(document).ready(function(){
             setTimeout(function(){
                 $('.errorToast').toast('hide');
-            }, 3000);
+            }, 4000);
         });
     </script>
 @endpush

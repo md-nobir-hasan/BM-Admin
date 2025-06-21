@@ -44,27 +44,27 @@
     </li>
 @endif
 
-{{-- Blog Management  --}}
-@if ($n =check('Blog'))
-    <li class="nav-item {{ Request::is('blog/*') ? 'menu-open' : '' }}">
+{{-- Ad Account Management  --}}
+@if ($n =check('Ad Account'))
+    <li class="nav-item {{ Request::is('ad-account/*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
             <i class="fa-solid fa-blog"></i>
             <p>
-                Blog
+                Add Account
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
             @if ($n->show)
                 <li class="nav-item">
-                    <a href="{{ route('blog.index') }}"
-                        class="nav-link {{ Request::is('blog/index') ? 'active' : '' }}">
+                    <a href="{{ route('ad_account.index') }}"
+                        class="nav-link {{ Request::is('ad-account/index') ? 'active' : '' }}">
                         <i class="nav-icon far fa-circle"></i>
-                        <p>Show Blog</p>
+                        <p>Show All</p>
                     </a>
                 </li>
             @endif
-            @if ($n->add)
+            {{-- @if ($n->add)
                 <li class="nav-item">
                     <a href="{{ route('blog.create') }}"
                         class="nav-link {{ Request::is('blog/create') ? 'active' : '' }}">
@@ -72,7 +72,7 @@
                         <p>Add Blog</p>
                     </a>
                 </li>
-            @endif
+            @endif --}}
         </ul>
     </li>
 @endif

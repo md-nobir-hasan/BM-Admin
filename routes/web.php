@@ -13,7 +13,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\Backend\ReviewController;
-use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AdAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,16 +54,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('company-details/delete/{id}', [CompanyDetailsController::class, 'destroy'])->name('company-details.destroy');
 
 
-    //Blog Management
-    Route::resource('blog',BlogController::class);
+    //Ad account Management
+    Route::group(['as' => 'ad_account.', 'prefix' => 'add-account'], function () {
+        Route::get('/index', [AdAccountController::class, 'index'])->name('index');
+        Route::post('/store', [AdAccountController::class, 'store'])->name('store');
+        Route::put('/{id}/ajax-update', [AdAccountController::class, 'ajaxUpdate'])->name('ajaxUpdate');
+    });
 
     //Add Ballance to wallet Mangement
     Route::group(['as' => 'wallet.', 'prefix' => 'wallet'], function () {
         Route::get('/index', [WalletController::class, 'index'])->name('index');
         Route::post('balance/store', [WalletController::class, 'store'])->name('balance.store');
-        Route::get('balances/edit/{id}', [WalletController::class, 'edit'])->name('balance.edit');
-        Route::patch('/update/{id}', [WalletController::class, 'update'])->name('update');
-        Route::get('/delete/{id}', [WalletController::class, 'destroy'])->name('destroy');
         Route::put('/{id}/ajax-update', [WalletController::class, 'ajaxUpdate'])->name('ajaxUpdate');
     });
 
