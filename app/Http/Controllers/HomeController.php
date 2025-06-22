@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\AdAccount;
 use App\Models\CompanyInfo;
 use App\Models\CompanyContact;
 use App\Models\Wallet;
@@ -17,7 +17,8 @@ class HomeController extends Controller
     }
     public function home()
     {
-        $n['wallet'] = Wallet::where('user_id',auth()->user()->id)->where('status',1)->get();
+        $n['wallet'] = Wallet::where('user_id',auth()->user()->id)->where('status',1)->latest()->get();
+        $n['ad_accounts'] = AdAccount::where('user_id',auth()->user()->id)->latest()->get();
         return view('backend.pages.index',$n);
 
     }

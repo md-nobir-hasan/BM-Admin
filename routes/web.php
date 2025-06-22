@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/index', [AdAccountController::class, 'index'])->name('index');
         Route::post('/store', [AdAccountController::class, 'store'])->name('store');
         Route::put('/{id}/ajax-update', [AdAccountController::class, 'ajaxUpdate'])->name('ajaxUpdate');
+        Route::post('/topup', [AdAccountController::class, 'topup'])->name('topup');
     });
 
     //Add Ballance to wallet Mangement

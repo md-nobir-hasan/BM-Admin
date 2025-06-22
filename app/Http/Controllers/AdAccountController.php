@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAdAccountRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\AdAccount;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,29 @@ class AdAccountController extends Controller
         $ad_account->save();
 
         return response()->json(['success' => true, 'message' => 'Ad Account updated successfully.']);
+    }
+
+    public function topup(Request $request)
+    {
+
+        $ad_account = AdAccount::find($request->balance_id);
+        if(!$ad_account){
+            return back()->with('error',"Your ad account is not valid");
+        }
+
+        $request->validate([
+            'amount' => 'required|numeric|max:1000000',
+        ]);
+
+        $total_balance = Wallet::where('user_id',auth()->user()->id)->where('status',1)->sum('amount');
+        if($request->amount > $total_balance ){
+            return back()->with('error',"You can't toup more then your wallet balance");
+        }
+
+        $ad_account->balance = $ad_account->balance + $request->amount;
+        $ad_account->save();
+
+        return back()->with('success',"$request->amount topup successfull");
     }
 
 }

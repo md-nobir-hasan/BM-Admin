@@ -183,60 +183,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    #10306-ebc~Shefa_Khana<br>
-                                    <small>id - 882382637182705</small><br>
-                                    <a href="#">https://www.facebook.com/share/1J981ZBm8L/</a>
-                                </td>
-                                <td>
-                                    Business Clinic BM<br>
-                                    1141985384140636<br>
-                                    Health Industries<br>
-                                    3291046091166528
-                                </td>
-                                <td>$0.01</td>
-                                <td>$0</td>
-                                <td>$0.01</td>
-                                <td><span class="badge badge-danger">Closed</span></td>
-                                <td>
-                                    <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-secondary btn-sm" disabled>Top Up</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    #10145-ebc~Organic_Foods<br>
-                                    <small>id - 618078337858390</small><br>
-                                    <a href="#">https://www.facebook.com/share/16FADs9oqo/</a>
-                                </td>
-                                <td>
-                                    Feet Health<br>
-                                    11490028166224102<br>
-                                    Rifat Tech Corner<br>
-                                    9894028628572008<br>
-                                    Dfg 1<br>
-                                    1121608929340226
-                                </td>
-                                <td>$296.89</td>
-                                <td>$1203.12</td>
-                                <td>$1500.01</td>
-                                <td><span class="badge badge-success"
-                                        style="background:#d4f8e8;color:#1fa463;">Active</span></td>
-                                <td>
-                                    <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm topup-btn"
-                                        data-account="#10145-ebc~Organic_Foods - 618078337858390" data-toggle="modal"
-                                        data-target="#topupModal">
-                                        Top Up
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Repeat for other ad accounts -->
+                            @foreach ($ad_accounts as $ad_account)
+                                <tr>
+                                    <td>
+                                        {{$ad_account->name}}<br>
+                                        <small>id - {{$ad_account->bm_id}}</small><br>
+                                        <a href="{{$ad_account->fb_page_link1}}" target="_blank">Page 1</a>
+                                    </td>
+                                    <td>
+                                        Business Clinic BM<br>
+                                        1141985384140636<br>
+                                        Health Industries<br>
+                                        3291046091166528
+                                    </td>
+                                    <td>${{$ad_account->balance}}</td>
+                                    <td>${{$ad_account->total_spent}}</td>
+                                    <td>${{$ad_account->limit}}</td>
+                                    <td><span class="badge @if ($ad_account->status == 1) badge-success @else badge-danger @endif">{{$ad_account->status_formatted}}</span></td>
+                                    <td>
+                                        <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm topup-btn @if ($ad_account->status == 1) badge-primary @else  btn-secondary @endif"
+                                            @if ($ad_account->status == 1)
+                                                data-account="{{$ad_account->name}} - {{$ad_account->bm_id}}" data-toggle="modal"
+                                                data-target="#topupModal" data-balanceid='{{$ad_account->id}}'
+                                            @else
+                                                disabled
+                                            @endif>
+                                            Top Up
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -607,7 +586,9 @@
                     </button>
                 </div>
                 <div class="modal-body pt-0">
-                    <form id="topupForm" autocomplete="off">
+                    <form id="topupForm" action="{{route('ad_account.topup')}}" method="POST" autocomplete="off">
+                        @csrf
+                        <input type="hidden" name="balance_id" id="balance_id" >
                         <div class="form-group">
                             <label class="mb-1">Add Account</label>
                             <input type="text" class="form-control" id="topupAccount" readonly>
@@ -618,11 +599,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <input type="number" class="form-control" id="topupAmount" placeholder="Enter amount"
+                                <input type="number" name="amount" class="form-control" id="topupAmount" placeholder="Enter amount"
                                     min="0" required>
+                                @error('amount')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block font-weight-bold"
+                        <button type="submit" class="btn btn-primary font-weight-bold"
                             style="font-size: 1.1rem;">
                             Top Up
                         </button>
@@ -758,18 +742,20 @@
             // When Top Up button is clicked, fill the modal with the account info
             $('.table').on('click', '.topup-btn', function() {
                 var account = $(this).data('account');
+                var balance_id = $(this).data('balanceid');
                 $('#topupAccount').val(account);
+                $('#balance_id').val(balance_id);
                 $('#topupAmount').val('');
             });
 
             // Handle form submission (AJAX or just close modal for now)
-            $('#topupForm').on('submit', function(e) {
-                e.preventDefault();
-                // You can add AJAX here
-                $('#topupModal').modal('hide');
-                // Optionally, show a success message
-                alert('Top up request submitted!');
-            });
+            // $('#topupForm').on('submit', function(e) {
+            //     e.preventDefault();
+            //     // You can add AJAX here
+            //     $('#topupModal').modal('hide');
+            //     // Optionally, show a success message
+            //     alert('Top up request submitted!');
+            // });
         });
 
         $(document).ready(function(){
