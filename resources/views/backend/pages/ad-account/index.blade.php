@@ -20,10 +20,9 @@
                             <h4>View Ad Account</h4>
                         </span>
                         <span class="float-right @if (!check('Ad Account')->add) d-none @endif">
-                            {{-- <a href="{{ route('wallet.balance.create') }}" class="btn btn-info">Add new Shipping</a> --}}
+                            {{-- <a href="{{ route('balance.create') }}" class="btn btn-info">Add new Shipping</a> --}}
                         </span>
                     </div>
-
                     {{-- Pending ad accounts --}}
                     <div class="card-body">
                         <h1>Pending Ad accounts</h1>
@@ -53,52 +52,43 @@
                                             <td>{{ $pad_account->monthly_budget }}</td>
                                             <td>
                                                 <a target="_blank" href="{{ $pad_account->fb_page_link1 }}">Page 1</a>
-                                                @if ($pad_account->fb_page_link2),<a href="{{ {{$pad_account->fb_page_link2}}}}">FB Link1</a> @endif
-                                                @if ($pad_account->fb_page_link3), <br> {{$pad_account->fb_page_link3}} @endif
-                                                @if ($pad_account->fb_page_link4), <br> {{$pad_account->fb_page_link4}} @endif
-                                                @if ($pad_account->fb_page_link5), <br> {{$pad_account->fb_page_link5}} @endif
+                                                @if ($pad_account->fb_page_link2), <a href="{{$pad_account->fb_page_link2}}" target="_blank">Page 2</a> @endif
+                                                @if ($pad_account->fb_page_link3), <a href="{{$pad_account->fb_page_link3}}" target="_blank">Page 3</a> @endif
+                                                @if ($pad_account->fb_page_link4), <a href="{{$pad_account->fb_page_link4}}" target="_blank">Page 4</a> @endif
+                                                @if ($pad_account->fb_page_link5), <a href="{{$pad_account->fb_page_link5}}" target="_blank">Page 5</a> @endif
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href="{{ $pad_account->website_link1 }}">Website 1</a>
+                                                @if ($pad_account->website_link2), <a href="{{$pad_account->website_link2}}" target="_blank">Website 2</a> @endif
 
                                             </td>
-                                            <td>{{ $pad_account->web_site_page_link1 }}</td>
                                             <td>{{ $pad_account->status_formatted }}</td>
                                             <td
                                                 class="text-middle py-0 align-middle @if (!check('Ad Account')->edit && !check('Ad Account')->delete) d-none @endif">
                                                 <div class="btn-group">
                                                     <a href="javascript:void(0);"
                                                         class="btn btn-dark btnEdit @if (!check('Ad Account')->edit) d-none @endif"
-                                                        data-id="{{ $pad_account->id }}" data-amount="{{ $pad_account->amount }}"
-                                                        data-trx_id="{{ $pad_account->trx_id }}"
+                                                        data-id="{{ $pad_account->id }}" data-accountname="{{ $pad_account->name }}"
                                                         data-status="{{ $pad_account->status }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     {{-- @endif --}}
                                                     {{-- @if (Auth::user()->can('delete Ad Account') || Auth::user()->role->id == 1) --}}
-                                                    {{-- <a href="{{ route('wallet.balance.destroy', $pad_account->id) }}"
+                                                    {{-- <a href="{{ route('balance.destroy', $pad_account->id) }}"
                                                         class="btn btn-danger btnDelete @if (!check('Ad Account')->delete) d-none @endif"><i class="fas fa-trash"></i></a> --}}
                                                     {{-- @endif --}}
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- Image Modal -->
-                                        <div class="modal fade" id="imageModal{{ $pad_account->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="imageModalLabel{{ $pad_account->id }}"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content bg-transparent border-0">
-                                                    <div class="modal-body text-center p-0">
-                                                        <img src="/storage/{{ $pad_account->ss }}" alt="Receipt"
-                                                            class="img-fluid rounded" style="max-height: 80vh;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     @empty
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
+                </div>
+
+                <div class="card">
                     {{-- All Ad Account withut pending --}}
                     <div class="card-body">
                         <h1>All Ad accounts</h1>
@@ -107,10 +97,12 @@
                                 <thead>
                                     <tr>
                                         <th>SL</th>
-                                        <th>Cusomter Name</th>
-                                        <th>Amount</th>
-                                        <th>Receipt copy</th>
-                                        <th>Trx ID or Reference</th>
+                                        <th>Customer Name</th>
+                                        <th>Account Name</th>
+                                        <th>BM ID</th>
+                                        <th>Monthly Budget</th>
+                                        <th>FB Page Links</th>
+                                        <th>Website Links</th>
                                         <th>Status</th>
                                         <th class="@if (!check('Ad Account')->edit && !check('Ad Account')->delete) d-none @endif" id="action">Action
                                         </th>
@@ -121,46 +113,39 @@
                                     <tr>
                                         <td>{{ $bkey + 1 }}</td>
                                         <td>{{ $ad_account->user->name }}</td>
-                                        <td>{{ $ad_account->amount }}</td>
+                                        <td>{{ $ad_account->name }}</td>
+                                        <td> {{$ad_account->bm_id}} </td>
+                                        <td>{{ $ad_account->monthly_budget }}</td>
                                         <td>
-                                            <img src="/storage/{{ $ad_account->ss }}" alt="Receipt"
-                                                class="img-thumbnail rounded shadow-sm"
-                                                style="width: 48px; height: 48px; object-fit: cover; cursor: pointer;"
-                                                data-toggle="modal" data-target="#imageModal{{ $ad_account->id }}">
+                                            <a target="_blank" href="{{ $ad_account->fb_page_link1 }}">Page 1</a>
+                                            @if ($ad_account->fb_page_link2), <a href="{{$ad_account->fb_page_link2}}" target="_blank">Page 2</a> @endif
+                                            @if ($ad_account->fb_page_link3), <a href="{{$ad_account->fb_page_link3}}" target="_blank">Page 3</a> @endif
+                                            @if ($ad_account->fb_page_link4), <a href="{{$ad_account->fb_page_link4}}" target="_blank">Page 4</a> @endif
+                                            @if ($ad_account->fb_page_link5), <a href="{{$ad_account->fb_page_link5}}" target="_blank">Page 5</a> @endif
                                         </td>
-                                        <td>{{ $ad_account->trx_id }}</td>
+                                        <td>
+                                            <a target="_blank" href="{{ $ad_account->website_link1 }}">Website 1</a>
+                                            @if ($ad_account->website_link2), <a href="{{$ad_account->website_link2}}" target="_blank">Website 2</a> @endif
+
+                                        </td>
                                         <td>{{ $ad_account->status_formatted }}</td>
                                         <td
                                             class="text-middle py-0 align-middle @if (!check('Ad Account')->edit && !check('Ad Account')->delete) d-none @endif">
                                             <div class="btn-group">
                                                 <a href="javascript:void(0);"
                                                     class="btn btn-dark btnEdit @if (!check('Ad Account')->edit) d-none @endif"
-                                                    data-id="{{ $ad_account->id }}" data-amount="{{ $ad_account->amount }}"
-                                                    data-trx_id="{{ $ad_account->trx_id }}"
+                                                    data-id="{{ $ad_account->id }}" data-accountname="{{ $ad_account->name }}"
                                                     data-status="{{ $ad_account->status }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 {{-- @endif --}}
                                                 {{-- @if (Auth::user()->can('delete Ad Account') || Auth::user()->role->id == 1) --}}
-                                                {{-- <a href="{{ route('wallet.ad_account.destroy', $ad_account->id) }}"
+                                                {{-- <a href="{{ route('balance.destroy', $ad_account->id) }}"
                                                     class="btn btn-danger btnDelete @if (!check('Ad Account')->delete) d-none @endif"><i class="fas fa-trash"></i></a> --}}
                                                 {{-- @endif --}}
                                             </div>
                                         </td>
                                     </tr>
-                                    <!-- Image Modal -->
-                                    <div class="modal fade" id="imageModal{{ $ad_account->id }}" tabindex="-1"
-                                        role="dialog" aria-labelledby="imageModalLabel{{ $ad_account->id }}"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content bg-transparent border-0">
-                                                <div class="modal-body text-center p-0">
-                                                    <img src="/storage/{{ $ad_account->ss }}" alt="Receipt"
-                                                        class="img-fluid rounded" style="max-height: 80vh;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     @empty
                                     @endforelse
                                 </tbody>
@@ -175,36 +160,33 @@
 
 
 
-    <!-- Edit Wallet Modal -->
-    <div class="modal fade" id="editWalletModal" tabindex="-1" role="dialog" aria-labelledby="editWalletModalLabel"
+    <!-- Edit Ad Account Modal -->
+    <div class="modal fade" id="editAdAccountModel" tabindex="-1" role="dialog" aria-labelledby="editAdAccountModelLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div id="editWalletErrors" class="alert alert-danger d-none"></div>
-            <form id="editWalletForm">
+            <div id="editAccountErrors" class="alert alert-danger d-none"></div>
+            <form id="editAccountForm">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editWalletModalLabel">Edit Wallet</h5>
+                        <h5 class="modal-title" id="editAdAccountModelLabel">Edit Ad Account</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="wallet_id" name="wallet_id">
+                        <input type="hidden" id="ad_account_id" name="ad_account_id">
                         <div class="form-group">
-                            <label for="amount">Amount</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="trx_id">Trx ID</label>
-                            <input type="text" class="form-control" id="trx_id" name="trx_id" required>
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
                             <label for="status">is approved</label>
                             <select class="form-control" id="status" name="status" required>
-                                <option value="2">Pending</option>
                                 <option value="1">Approved</option>
-                                <option value="3">Rejected</option>
+                                <option value="2">Pending</option>
+                                <option value="3">Disclose</option>
+                                <option value="3">Close</option>
                             </select>
                         </div>
                     </div>
@@ -252,37 +234,39 @@
             // Open modal and fill data
             $('.btnEdit').on('click', function() {
                 var id = $(this).data('id');
-                var amount = $(this).data('amount');
-                var trx_id = $(this).data('trx_id');
+                var account_name = $(this).data('accountname');
                 var status = $(this).data('status');
 
-                $('#wallet_id').val(id);
-                $('#amount').val(amount);
-                $('#trx_id').val(trx_id);
+                $('#ad_account_id').val(id);
+                $('#name').val(account_name);
                 $('#status').val(status);
 
-                $('#editWalletErrors').addClass('d-none').empty();
+                $('#editAccountErrors').addClass('d-none').empty();
 
-                $('#editWalletModal').modal('show');
+                $('#editAdAccountModel').modal('show');
             });
 
             // AJAX form submit
-            $('#editWalletForm').on('submit', function(e) {
+            $('#editAccountForm').on('submit', function(e) {
                 e.preventDefault();
-                var id = $('#wallet_id').val();
+                var id = $('#ad_account_id').val();
                 var formData = $(this).serialize();
 
                 $.ajax({
-                    url: '/wallet/' + id + '/ajax-update',
+                    url: '/ad-account/' + id + '/ajax-update',
                     type: 'POST',
                     data: formData + '&_method=PUT',
                     success: function(response) {
-                        $('#editWalletModal').modal('hide');
+                        $('#editAdAccountModel').modal('hide');
                         var row = $('a[data-id="' + id + '"]').closest('tr');
-                        row.find('td').eq(2).text($('#amount').val());
-                        row.find('td').eq(4).text($('#trx_id').val());
-                        row.find('td').eq(5).text(statusText($('#status').val()));
-                        showToast('Wallet updated successfully!', 'success');
+                        row.find('td').eq(2).text($('#name').val());
+                        row.find('td').eq(7).text(statusText($('#status').val()));
+                        // Update data-attributes on the edit button
+                        var btnEdit = row.find('.btnEdit');
+                            btnEdit.data('accountname', $('#name').val());
+                            btnEdit.data('status', $('#status').val());
+
+                        showToast('Account updated successfully!', 'success');
                     },
                     error: function(xhr) {
                         if (xhr.status === 422) {
@@ -293,9 +277,9 @@
                                 errorHtml += '<li>' + value[0] + '</li>';
                             });
                             errorHtml += '</ul>';
-                            $('#editWalletErrors').removeClass('d-none').html(errorHtml);
+                            $('#editAccountErrors').removeClass('d-none').html(errorHtml);
                         } else {
-                            $('#editWalletErrors').removeClass('d-none').html(
+                            $('#editAccountErrors').removeClass('d-none').html(
                                 'Something went wrong!');
                         }
                     }
@@ -329,7 +313,9 @@
                 case 2:
                     return 'Pending';
                 case 3:
-                    return 'Rejected';
+                    return 'Disclose';
+                case 4:
+                    return 'Close';
                 default:
                     return '';
             }

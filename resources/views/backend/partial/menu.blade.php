@@ -16,7 +16,7 @@
         <a href="#" class="nav-link">
             <i class="fa-solid fa-truck-fast"></i>
             <p>
-                Customer Wallets
+                Customer's Wallets
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>
@@ -50,7 +50,7 @@
         <a href="#" class="nav-link">
             <i class="fa-solid fa-blog"></i>
             <p>
-                Add Account
+               Customer's Ad Account
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>

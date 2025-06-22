@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Ad account Management
-    Route::group(['as' => 'ad_account.', 'prefix' => 'add-account'], function () {
+    Route::group(['as' => 'ad_account.', 'prefix' => 'ad-account'], function () {
         Route::get('/index', [AdAccountController::class, 'index'])->name('index');
         Route::post('/store', [AdAccountController::class, 'store'])->name('store');
         Route::put('/{id}/ajax-update', [AdAccountController::class, 'ajaxUpdate'])->name('ajaxUpdate');
