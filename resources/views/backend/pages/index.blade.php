@@ -39,7 +39,7 @@
                         <i class="fas fa-plus-square fa-lg mr-2"></i>
                         <div>
                             <div style="font-size: 14px;">Pending Deposit</div>
-                            <div style="font-size: 20px; font-weight: bold;">0</div>
+                            <div style="font-size: 20px; font-weight: bold;">{{ $pending_wallet->count()}}</div>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         <i class="fab fa-facebook-messenger fa-lg mr-2"></i>
                         <div>
                             <div style="font-size: 14px;">Pending Accounts</div>
-                            <div style="font-size: 20px; font-weight: bold;">0</div>
+                            <div style="font-size: 20px; font-weight: bold;">{{$ad_accounts->where('status',2)?->count()}}</div>
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                             <i class="fas fa-wallet fa-2x text-primary mr-2"></i>
                             <span>Wallet Balance</span>
                         </div>
-                        <h4>${{$wallet->sum('amount')}}</h4>
+                        <h4>${{ auth()->user()?->current_balance}}</h4>
                         @php
                             $lastDeposit = $wallet->sortByDesc('created_at')->first();
                         @endphp
@@ -125,8 +125,8 @@
                             <i class="fas fa-dollar-sign fa-2x text-info mr-2"></i>
                             <span>Current USD Rate</span>
                         </div>
-                        <h4>৳128.00/USD</h4>
-                        <small>Expires on: 30 Apr 2025</small>
+                        <h4>৳{{auth()->user()?->dollar_rate}}/USD</h4>
+                        <small>Expires on: {{now()->addDay()->format('d M Y')}}</small>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@
                             <i class="fab fa-facebook fa-2x text-purple mr-2"></i>
                             <span>Total Ad Accounts Balance</span>
                         </div>
-                        <h4>299.17</h4>
+                        <h4>{{$ad_accounts->sum('balance')}}</h4>
                         <small>Including Closed Ad Accounts</small>
                     </div>
                 </div>
@@ -149,8 +149,8 @@
                             <i class="fas fa-ad fa-2x text-success mr-2"></i>
                             <span>Active Ad Accounts</span>
                         </div>
-                        <h4>1</h4>
-                        <small>3 Total</small>
+                        <h4>{{$ad_accounts->where('status',1)->sum('balance')}}</h4>
+                        <small>{{$ad_accounts->where('status',1)->count()}} Total</small>
                     </div>
                 </div>
             </div>

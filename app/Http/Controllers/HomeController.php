@@ -18,6 +18,8 @@ class HomeController extends Controller
     public function home()
     {
         $n['wallet'] = Wallet::where('user_id',auth()->user()->id)->where('status',1)->latest()->get();
+        $n['pending_wallet'] = $n['wallet']->where('status',2);
+        $n['aproved_wallet'] = $n['wallet']->where('status',1);
         $n['ad_accounts'] = AdAccount::where('user_id',auth()->user()->id)->latest()->get();
         return view('backend.pages.index',$n);
 
