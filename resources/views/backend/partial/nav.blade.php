@@ -8,27 +8,31 @@
 
     <ul class="navbar-nav ml-auto">
 
-        {{-- Cache Clear --}}
-        <li class="nav-item">
-            <a href="{{ route('optimize') }}" class="nav-link" title='Optimize the app'>
-                <i class="fas fa-sync"></i>
-            </a>
-        </li>
+        {{-- Optimization --}}
+        @if(check('Optimization'))
+            <li class="nav-item">
+                <a href="{{ route('optimize') }}" class="nav-link" title='Optimize the app'>
+                    <i class="fas fa-sync"></i>
+                </a>
+            </li>
+        @endif
 
         {{-- Going frontend home page menu --}}
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a href="{{ route('admin') }}" class="nav-link" target="_blank">
                 <i class="fas fa-external-link-alt" title="Go to Home Page"></i>
             </a>
-        </li>
+        </li> --}}
 
         {{-- Cache Clear --}}
-        <li class="nav-item">
-            <a href="{{ route('optimize-clear') }}" class="nav-link">
-                <i class="fas fa-cog"></i>
-                Cache Clear
-            </a>
-        </li>
+        @if(check('Cache Clear'))
+            <li class="nav-item">
+                <a href="{{ route('optimize-clear') }}" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    Cache Clear
+                </a>
+            </li>
+        @endif
 
         {{-- Optimize the app  --}}
         {{-- <li class="nav-item">

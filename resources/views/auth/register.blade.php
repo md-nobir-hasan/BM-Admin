@@ -128,7 +128,7 @@
         <h2>Create Account</h2>
         <form id="signupForm" method="POST" action="{{ route('register') }}" autocomplete="off">
             @csrf
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="user_id">User ID *</label>
                 <input type="text" id="user_id" name="user_id" required>
                 <div class="error" id="user_id_error">
@@ -136,7 +136,7 @@
                         {{$message}}
                     @enderror
                 </div>
-            </div>
+            </div> --}}
             <div class="form-group">
                 <label for="name">Full Name *</label>
                 <input type="text" id="name" name="name" required>

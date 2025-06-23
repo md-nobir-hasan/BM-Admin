@@ -67,7 +67,7 @@ class WalletController extends Controller
         // return $data;
         $status=Wallet::create($data);
         if($status){
-            request()->session()->flash('success','Wallet successfully created');
+            request()->session()->flash('success','Balance adding request sending');
         }
         else{
             request()->session()->flash('error','Error, Please try again');

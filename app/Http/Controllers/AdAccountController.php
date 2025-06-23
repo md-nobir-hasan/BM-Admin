@@ -35,7 +35,7 @@ class AdAccountController extends Controller
 
         $insert = AdAccount::create($data);
 
-        return $insert ? back()->with('success', 'Ad Account created successfully')
+        return $insert ? back()->with('success', 'Ad Account creating is requested successfull')
                 : redirect()->back()->with('error', 'Ad Account creation failed');
     }
 

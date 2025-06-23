@@ -32,6 +32,8 @@ class FeatureSeeder extends Seeder
             ['name' => 'Services', 'status' => 1],
             ['name' => 'Setting Setup', 'status' => 1],
             ['name' => 'Ad Account', 'status' => 1], //14
+            ['name' => 'Cache Clear', 'status' => 1], //14
+            ['name' => 'Optimization', 'status' => 1], //14
         ];
 
         DB::table('features')->insert($n);
