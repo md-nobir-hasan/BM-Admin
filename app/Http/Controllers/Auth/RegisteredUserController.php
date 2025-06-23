@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -19,6 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+
         return view('auth.register');
     }
 
@@ -52,6 +55,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        // Send welcome email
+        try{
+            Mail::to('nobir.wd@gmail.com')->send(new WelcomeEmail(User::Find(1),'dkslfjsldk'));
+        }
+        Mail::to($user->email)->send(new WelcomeEmail($user));
         Auth::login($user);
 
         return redirect(route('admin', absolute: false));
