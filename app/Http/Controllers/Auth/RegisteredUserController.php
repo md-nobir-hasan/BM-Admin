@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -53,14 +54,17 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        Auth::login($user);
+
         event(new Registered($user));
 
         // Send welcome email
         try{
-            Mail::to('nobir.wd@gmail.com')->send(new WelcomeEmail(User::Find(1),'dkslfjsldk'));
+            Mail::to($request->email)->send(new WelcomeEmail($user,$request->password));
+        }catch(\Exception $e){
+            Log::error("Welcome mail can't send. The error is: " . $e->getMessage());
         }
-        Mail::to($user->email)->send(new WelcomeEmail($user));
-        Auth::login($user);
+
 
         return redirect(route('admin', absolute: false));
     }
