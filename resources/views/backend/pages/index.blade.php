@@ -178,7 +178,7 @@
                                 <th>Total Spent</th>
                                 <th>Limit</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                                 <th>Top Up</th>
                             </tr>
                         </thead>
@@ -200,9 +200,9 @@
                                     <td>${{$ad_account->total_spent}}</td>
                                     <td>${{$ad_account->limit}}</td>
                                     <td><span class="badge @if ($ad_account->status == 1) badge-success @else badge-danger @endif">{{$ad_account->status_formatted}}</span></td>
-                                    <td>
+                                    {{-- <td>
                                         <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <button class="btn btn-sm topup-btn @if ($ad_account->status == 1) badge-primary @else  btn-secondary @endif"
                                             @if ($ad_account->status == 1)
