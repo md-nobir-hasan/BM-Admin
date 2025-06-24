@@ -44,7 +44,7 @@
                             <form action="{{ route('login') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-outline mb-4">
-                                    <label class="form-label" for="typeEmailX-2">Phone</label>
+                                    <label class="form-label" for="typeEmailX-2">User ID/Phone</label>
                                     <input name="phone" type="number" id="phone-2"
                                         class="form-control form-control-lg" />
                                 </div>
