@@ -127,15 +127,15 @@
                                         <td> {{$ad_account->bm_id}} </td>
                                         <td>{{ $ad_account->monthly_budget }}</td>
                                         <td>
-                                            <a target="_blank" href="{{ $ad_account->fb_page_link1 }}">Page 1 <x-copybtn/> </a>
-                                            @if ($ad_account->fb_page_link2), <a href="{{$ad_account->fb_page_link2}}" target="_blank">Page 2</a> @endif
-                                            @if ($ad_account->fb_page_link3), <a href="{{$ad_account->fb_page_link3}}" target="_blank">Page 3</a> @endif
-                                            @if ($ad_account->fb_page_link4), <a href="{{$ad_account->fb_page_link4}}" target="_blank">Page 4</a> @endif
-                                            @if ($ad_account->fb_page_link5), <a href="{{$ad_account->fb_page_link5}}" target="_blank">Page 5</a> @endif
+                                            <a target="_blank" href="{{ $ad_account->fb_page_link1 }}">Page 1 </a> <x-button> {{$ad_account->fb_page_link1}} </x-button>
+                                            @if ($ad_account->fb_page_link2), <a href="{{$ad_account->fb_page_link2}}" target="_blank">Page 2</a><x-button> {{$ad_account->fb_page_link2}} </x-button> @endif
+                                            @if ($ad_account->fb_page_link3), <a href="{{$ad_account->fb_page_link3}}" target="_blank">Page 3</a><x-button> {{$ad_account->fb_page_link3}} </x-button> @endif
+                                            @if ($ad_account->fb_page_link4), <a href="{{$ad_account->fb_page_link4}}" target="_blank">Page 4</a><x-button> {{$ad_account->fb_page_link4}} </x-button> @endif
+                                            @if ($ad_account->fb_page_link5), <a href="{{$ad_account->fb_page_link5}}" target="_blank">Page 5</a><x-button> {{$ad_account->fb_page_link5}} </x-button> @endif
                                         </td>
                                         <td>
-                                            <a target="_blank" href="{{ $ad_account->website_link1 }}">Website 1</a>
-                                            @if ($ad_account->website_link2), <a href="{{$ad_account->website_link2}}" target="_blank">Website 2</a> @endif
+                                            <a target="_blank" href="{{ $ad_account->website_link1 }}">Website 1</a><x-button> {{$ad_account->website_link1}} </x-button>
+                                            @if ($ad_account->website_link2), <a href="{{$ad_account->website_link2}}" target="_blank">Website 2</a><x-button> {{$ad_account->website_link2}} </x-button> @endif
 
                                         </td>
                                         <td>{{ $ad_account->status_formatted }}</td>
