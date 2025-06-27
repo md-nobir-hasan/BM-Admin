@@ -30,7 +30,7 @@
         </div>
 
         <!-- Summary Cards (6 small cards in a row) -->
-        <div class="row mb-4">
+        <div class="row mb-4 m-auto">
             <div class="col-6 col-md-2 mb-2">
                 <div class="card text-white bg-danger h-100">
                     <div class="card-body p-2 d-flex align-items-center">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-2 mb-2">
+            {{-- <div class="col-6 col-md-2 mb-2">
                 <div class="card text-white bg-purple h-100" style="background: #8e44ad;">
                     <div class="card-body p-2 d-flex align-items-center">
                         <i class="fas fa-ad fa-lg mr-2"></i>
@@ -64,14 +64,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="col-6 col-md-2 mb-2">
                 <div class="card text-white bg-primary h-100">
                     <div class="card-body p-2 d-flex align-items-center">
                         <i class="fas fa-wrench fa-lg mr-2"></i>
                         <div>
                             <div style="font-size: 14px;">Ad Accounts in Review</div>
-                            <div style="font-size: 20px; font-weight: bold;">2</div>
+                            <div style="font-size: 20px; font-weight: bold;">{{ $ad_accounts->where('status',1)->count() }}</div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                         <i class="fas fa-dollar-sign fa-lg mr-2"></i>
                         <div>
                             <div style="font-size: 14px;">Low Balance</div>
-                            <div style="font-size: 20px; font-weight: bold;">2</div>
+                            <div style="font-size: 20px; font-weight: bold;"> @if($curren_balance < 10000) {{$curren_balance }} @else ... @endif</div>
                         </div>
                     </div>
                 </div>
