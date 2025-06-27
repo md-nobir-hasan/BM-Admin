@@ -19,8 +19,9 @@ class CreateAdAccountTable extends Migration
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('bm_id');
-            $table->string('credit_line');
-            $table->string('card_line');
+            $table->tinyInteger('account_type');
+            $table->float('dollar_rate')->default(135);
+            // $table->tinyInteger('base_rate');
             $table->string('fb_page_link1');
             $table->string('fb_page_link2')->nullable();
             $table->string('fb_page_link3')->nullable();

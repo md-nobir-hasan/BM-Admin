@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAdAccountRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\AdAccount;
+use App\Models\Bm;
+use App\Models\TopupHistory;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -35,8 +37,46 @@ class AdAccountController extends Controller
 
         $insert = AdAccount::create($data);
 
+        if($data['bm_id']){
+            Bm::create([
+                'bm_id' => $data['bm_id'],
+            ]);
+        }
+
         return $insert ? back()->with('success', 'Ad Account creating is requested successfull')
                 : redirect()->back()->with('error', 'Ad Account creation failed');
+    }
+    public function bmStore(Request $request)
+    {
+        $request->validate([
+            'bm_id'=> ['required','string','max:255',"unique:bms,bm_id"],
+            'ad_account_id' => ['required',"exists:ad_accounts,id"],
+        ]);
+        if($request->bm_id && $request->ad_account_id){
+          $insert =  Bm::create([
+                'bm_id' => $request->bm_id,
+                'ad_account_id' => $request->ad_account_id,
+            ]);
+        }else{
+            $insert = false;
+        }
+
+        return $insert ? back()->with('success', 'BM ID is added successfully')
+                : redirect()->back()->with('error', 'BM ID adding failed');
+    }
+    public function bmRemove(Request $request)
+    {
+        // dd($request->bm_id);
+        if($request->bm_id){
+            foreach($request->bm_id as $bm_id){
+                $insert = BM::where('bm_id',$bm_id)?->delete();
+            }
+        }else{
+            $insert = false;
+        }
+
+        return $insert ? back()->with('success', 'BM ID is deleted successfully')
+                : redirect()->back()->with('error', 'BM ID deleting failed');
     }
 
     public function ajaxUpdate(Request $request, $id)
@@ -45,10 +85,12 @@ class AdAccountController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'dollar_rate' => 'required|numeric',
             'status' => 'required|in:1,2,3,4',
         ]);
 
         $ad_account->name = $request->name;
+        $ad_account->dollar_rate = $request->dollar_rate;
         $ad_account->status = $request->status;
         $ad_account->save();
 
@@ -68,12 +110,21 @@ class AdAccountController extends Controller
         ]);
 
         $total_balance = Wallet::where('user_id',auth()->user()->id)->where('status',1)->sum('amount');
-        if($request->amount > $total_balance ){
+
+        if($request->amount * $ad_account->dollar_rate > $total_balance ){
             return back()->with('error',"You can't toup more then your wallet balance");
         }
 
         $ad_account->balance = $ad_account->balance + $request->amount;
+
+        TopupHistory::create([
+            'user_id' => auth()->user()?->id,
+            'ad_account_id' => $ad_account->id,
+            'amount' => $request->amount,
+        ]);
+
         $ad_account->save();
+
 
         return back()->with('success',"$request->amount topup successfull");
     }

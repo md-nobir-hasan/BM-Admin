@@ -133,7 +133,7 @@ class SettingController extends Controller
             return back();
         }
 
-        $n['users'] = User::orderBy('role_id')->get();
+        $n['users'] = User::where('role_id','=',2)->get();
         return view('backend.pages.setting.user-creation.index', $n);
     }
     //=============================== User Management =============================
@@ -196,6 +196,7 @@ class SettingController extends Controller
         $insert->name = $req->name;
         $insert->email = $req->email;
         $insert->phone = $req->phone;
+        $insert->dollar_rate = $req->dollar_rate;
         $insert->status = $req->status;
         $insert->is_approved = $req->is_approved ? true : false;
 

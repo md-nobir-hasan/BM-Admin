@@ -65,6 +65,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/{id}/ajax-update', [AdAccountController::class, 'ajaxUpdate'])->name('ajaxUpdate');
         Route::post('/topup', [AdAccountController::class, 'topup'])->name('topup');
     });
+    //Ad account Management
+    Route::group(['as' => 'bm.', 'prefix' => 'bm'], function () {
+        Route::post('/store', [AdAccountController::class, 'bmStore'])->name('store');
+        Route::post('/rmove', [AdAccountController::class, 'bmRemove'])->name('delete');
+    });
 
     //Add Ballance to wallet Mangement
     Route::group(['as' => 'wallet.', 'prefix' => 'wallet'], function () {

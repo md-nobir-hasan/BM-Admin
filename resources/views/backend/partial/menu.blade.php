@@ -171,7 +171,7 @@
                     </ul>
                 </li>
             @endif
-            @if ($n = check('Role'))
+            {{-- @if ($n = check('Role'))
                 <li class="nav-item {{ Request::is('setting/role/*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-dice-d6"></i>
@@ -198,7 +198,7 @@
                         @endif
                     </ul>
                 </li>
-            @endif
+            @endif --}}
             @if ($n = check('User Creation'))
                 <li class="nav-item {{ Request::is('setting/user/*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">

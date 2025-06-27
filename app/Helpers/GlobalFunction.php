@@ -93,3 +93,13 @@ function steadFastCourier(){
     return new SteadFastCourierService();
 }
 
+function correntBallance($ad_balances,$ad_accounts){
+    $adding_ammount = $ad_balances->where('status',1)->sum('amount');
+    $spend_ammount = 0;
+    foreach($ad_accounts as $ad_account){
+        $spend_ammount += $ad_account->balance * $ad_account->dollar_rate;
+    }
+    // dd($ad_balances,$spend_ammount);
+    return round($adding_ammount - $spend_ammount,2);
+}
+

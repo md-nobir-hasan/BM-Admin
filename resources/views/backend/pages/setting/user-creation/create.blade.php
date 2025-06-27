@@ -70,6 +70,17 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="dollar_rate" class="col-form-label">Dollar Rate<span
+                                                class="text-danger">*</span></label>
+                                        <input id="dollar_rate" type="numer" name="dollar_rate" placeholder="Enter a dollar_rate"
+                                            @if (isset($user)) value="{{ $user->dollar_rate }}" @else value="{{ old('dollar_rate') }}" @endif
+                                             class="form-control" required>
+                                        @error('dollar_rate')
+                                            <p class="text-danger fst-italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
                                         <input id="is_approved" type="checkbox" name="is_approved"
                                         placeholder="Enter a is_approved" required
                                         @checked($user->is_approved)>

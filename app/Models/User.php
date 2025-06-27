@@ -65,4 +65,8 @@ class User extends Authenticatable
             default => 'Unknown'
         };
     }
+
+    public function topup_histories(){
+        return $this->hasMany(TopupHistory::class,'use_id','id');
+    }
 }

@@ -51,7 +51,7 @@ class SiteSettingController extends Controller
         }
 
         // foreach($request->service_id as $value){
-            $insert = new SiteSetting();
+            $insert = SiteSetting::first();
             $insert->dollar_rate = $request->dollar_rate;
             $insert->save();
         // }
