@@ -1,23 +1,21 @@
 @extends('backend.layouts.app')
 
 @section('content')
-
-
-@if($errors->any())
-    <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">
-        <div class="toast show errorToast"  data-delay="3000" style="min-width: 250px;">
-            <div class="toast-header bg-danger text-white">
-                <strong class="mr-auto">Error</strong>
-                <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                {{ $errors->first() }} | try again
+    @if ($errors->any())
+        <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">
+            <div class="toast show errorToast" data-delay="3000" style="min-width: 250px;">
+                <div class="toast-header bg-danger text-white">
+                    <strong class="mr-auto">Error</strong>
+                    <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    {{ $errors->first() }} | try again
+                </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
 
     <div class="container-fluid">
 
@@ -27,8 +25,8 @@
                 <h3>Overview</h3>
                 <p>Hello Iftekhar Niloy, 👋🏻 This is your regular dashboard!</p>
             </div>
-            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#depositWizardModal">Add Balance &nbsp; <i
-                    class="fas fa-arrow-right"></i></button>
+            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#depositWizardModal">Add Balance &nbsp;
+                <i class="fas fa-arrow-right"></i></button>
         </div>
 
         <!-- Summary Cards (6 small cards in a row) -->
@@ -39,7 +37,7 @@
                         <i class="fas fa-plus-square fa-lg mr-2"></i>
                         <div>
                             <div style="font-size: 14px;">Pending Deposit</div>
-                            <div style="font-size: 20px; font-weight: bold;">{{ $pending_wallet->count()}}</div>
+                            <div style="font-size: 20px; font-weight: bold;">{{ $pending_wallet->count() }}</div>
                         </div>
                     </div>
                 </div>
@@ -50,7 +48,8 @@
                         <i class="fab fa-facebook-messenger fa-lg mr-2"></i>
                         <div>
                             <div style="font-size: 14px;">Pending Accounts</div>
-                            <div style="font-size: 20px; font-weight: bold;">{{$ad_accounts->where('status',2)?->count()}}</div>
+                            <div style="font-size: 20px; font-weight: bold;">{{ $ad_accounts->where('status', 2)?->count() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,7 +109,7 @@
                             <i class="fas fa-wallet fa-2x text-primary mr-2"></i>
                             <span>Wallet Balance</span>
                         </div>
-                        <h4>${{ auth()->user()?->current_balance}}</h4>
+                        <h4>BDT {{ $curren_balance }}</h4>
                         @php
                             $lastDeposit = $wallet->sortByDesc('created_at')->first();
                         @endphp
@@ -125,8 +124,8 @@
                             <i class="fas fa-dollar-sign fa-2x text-info mr-2"></i>
                             <span>Current USD Rate</span>
                         </div>
-                        <h4>৳{{auth()->user()?->dollar_rate}}/USD</h4>
-                        <small>Expires on: {{now()->addDay()->format('d M Y')}}</small>
+                        <h4>৳{{ auth()->user()?->dollar_rate }}/USD</h4>
+                        <small>Expires on: {{ now()->addDay()->format('d M Y') }}</small>
                     </div>
                 </div>
             </div>
@@ -137,7 +136,7 @@
                             <i class="fab fa-facebook fa-2x text-purple mr-2"></i>
                             <span>Total Ad Accounts Balance</span>
                         </div>
-                        <h4>{{$ad_accounts->sum('balance')}}</h4>
+                        <h4>${{ $ad_accounts->sum('balance') }}</h4>
                         <small>Including Closed Ad Accounts</small>
                     </div>
                 </div>
@@ -147,15 +146,14 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2">
                             <i class="fas fa-ad fa-2x text-success mr-2"></i>
-                            <span>Active Ad Accounts</span>
+                            <span>Active Ad Accounts Balance</span>
                         </div>
-                        <h4>{{$ad_accounts->where('status',1)->sum('balance')}}</h4>
-                        <small>{{$ad_accounts->where('status',1)->count()}} Total</small>
+                        <h4>{{ $ad_accounts->where('status', 1)->sum('balance') }}</h4>
+                        <small>{{ $ad_accounts->where('status', 1)->count() }} Total</small>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Ad Accounts Table -->
         <div class="card">
             <div class="card-body">
@@ -175,44 +173,197 @@
                                 <th>Ad Account</th>
                                 <th>Connected BM</th>
                                 <th>Balance</th>
+                                <th>Dollar Rate</th>
                                 <th>Total Spent</th>
                                 <th>Limit</th>
                                 <th>Status</th>
-                                {{-- <th>Action</th> --}}
                                 <th>Top Up</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($ad_accounts as $ad_account)
                                 <tr>
                                     <td>
-                                        {{$ad_account->name}}<br>
-                                        <small>id - {{$ad_account->bm_id}}</small><br>
-                                        <a href="{{$ad_account->fb_page_link1}}" target="_blank">Page 1</a>
+                                        {{ $ad_account->name }}<br>
+                                        {{-- <small>id - {{$ad_account->bm_id}}</small><br> --}}
+                                        <a href="{{ $ad_account->fb_page_link1 }}" target="_blank">Page 1</a>
+                                        <button type="button" class="btn btn-link p-0 ml-2"
+                                            onclick="copyToClipboard('{{ $ad_account->fb_page_link1 }}')"
+                                            title="Copy link">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
                                     </td>
                                     <td>
-                                        Business Clinic BM<br>
-                                        1141985384140636<br>
-                                        Health Industries<br>
-                                        3291046091166528
+                                        @foreach ($ad_account->bms as $bm)
+                                            <p>{{$bm->bm_id}}@if (!$loop->last), <br> @endif</p>
+                                        @endforeach
                                     </td>
-                                    <td>${{$ad_account->balance}}</td>
-                                    <td>${{$ad_account->total_spent}}</td>
-                                    <td>${{$ad_account->limit}}</td>
-                                    <td><span class="badge @if ($ad_account->status == 1) badge-success @else badge-danger @endif">{{$ad_account->status_formatted}}</span></td>
-                                    {{-- <td>
-                                        <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
-                                    </td> --}}
+                                    <td>${{ $ad_account->balance }}</td>
+                                    <td>BDT {{ $ad_account->dollar_rate }}</td>
+                                    <td>${{ $ad_account->total_spent }}</td>
+                                    <td>${{ $ad_account->limit }}</td>
+                                    <td><span
+                                            class="badge @if ($ad_account->status == 1) badge-success @else badge-danger @endif">{{ $ad_account->status_formatted }}</span>
+                                    </td>
+
                                     <td>
-                                        <button class="btn btn-sm topup-btn @if ($ad_account->status == 1) badge-primary @else  btn-secondary @endif"
-                                            @if ($ad_account->status == 1)
-                                                data-account="{{$ad_account->name}} - {{$ad_account->bm_id}}" data-toggle="modal"
-                                                data-target="#topupModal" data-balanceid='{{$ad_account->id}}'
+                                        <button
+                                            class="btn btn-sm topup-btn @if ($ad_account->status == 1) badge-primary @else  btn-secondary @endif"
+                                            @if ($ad_account->status == 1) data-account="{{ $ad_account->name }} - {{ $ad_account->bm_id }}" data-toggle="modal"
+                                                data-target="#topupModal" data-balanceid='{{ $ad_account->id }}'
                                             @else
-                                                disabled
-                                            @endif>
+                                                disabled @endif>
                                             Top Up
                                         </button>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-light btn-sm dropdown-toggle" type="button"
+                                                id="actionMenuButton{{ $ad_account->id }}" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right shadow"
+                                                aria-labelledby="actionMenuButton{{ $ad_account->id }}"
+                                                style="min-width: 220px;">
+                                                {{-- <a class="dropdown-item" href="#"><i class="fas fa-edit mr-2"></i> Rename</a> --}}
+                                                <a class="dropdown-item" href="javascript::void(0);" data-toggle="modal"
+                                                    data-target="#create_new_bm_modal{{$loop->index}}">
+                                                    <i class="fas fa-share-alt mr-2"></i> Share account
+                                                </a>
+                                                <a  class="dropdown-item" href="javascript::void(0);" data-toggle="modal"
+                                                    data-target="#delete_bm_modal{{$loop->index}}"><i
+                                                        class="fas fa-minus-circle mr-2"></i> Remove BM</a>
+
+                                                <a class="dropdown-item" href="javascript::void(0);" data-toggle="modal"
+                                                    data-target="#topupHistoryModal{{ $loop->index }}">
+                                                    <i class="fas fa-history mr-2"></i> Top up history
+                                                </a>
+
+
+                                            </div>
+                                        </div>
+
+                                        {{-- Createing new bm modal --}}
+                                        <div class="modal fade" id="create_new_bm_modal{{$loop->index}}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Add New BM</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('bm.store') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="ad_account_id" value="{{$ad_account->id}}">
+                                                            {{-- BM ID --}}
+                                                            <div class="form-group">
+                                                                <label class="mb-1"> BM ID<span
+                                                                        class="text-danger">*</span></label>
+                                                                <input type="text" name="bm_id"
+                                                                    value="{{ old('bm_id') }}" class="form-control"
+                                                                    placeholder="Insert BM ID of client" required>
+                                                                @error('bm_id')
+                                                                    <p class="text-danger">{{ $message }}</p>
+                                                                @enderror
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-primary btn-block font-weight-bold"
+                                                                style="font-size: 1.1rem;">
+                                                                Add <i class="fas fa-arrow-right"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Deleteing  bm modal --}}
+                                        <div class="modal fade" id="delete_bm_modal{{$loop->index}}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header border border-b">
+                                                        <h5 class="modal-title">Delete BMs</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('bm.delete') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="ad_account_id" value="{{$ad_account->id}}">
+                                                            {{-- BM ID --}}
+                                                            @foreach ($ad_account->bms as $bm)
+                                                                <div class="form-group">
+                                                                    <input type="checkbox" name="bm_id[{{$loop->index}}]"
+                                                                        id="bm{{$loop->index}}"
+                                                                        value="{{$bm->bm_id}}"
+                                                                        placeholder="Insert BM ID of client">
+                                                                    <label for="bm{{$loop->index}}" class="mb-1">{{$bm->bm_id}}</label>
+                                                                    @error('bm_id')
+                                                                        <p class="text-danger">{{ $message }}</p>
+                                                                    @enderror
+                                                                </div>
+                                                            @endforeach
+                                                            <button type="submit"
+                                                                class="btn btn-danger btn-block font-weight-bold"
+                                                                style="font-size: 1.1rem;">
+                                                                Delete <i class="fas fa-arrow-right"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Top Up History Modal -->
+                                        <div class="modal fade" id="topupHistoryModal{{ $loop->index }}"
+                                            tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="topupHistoryLabel{{ $loop->index }}">All Top Up History
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @if ($ad_account->topup_histories->count())
+                                                            <table class="table table-bordered table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Date</th>
+                                                                        <th>Amount</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($ad_account->topup_histories as $history)
+                                                                        <tr>
+                                                                            <td>{{ $loop->iteration }}</td>
+                                                                            <td>{{ \Carbon\Carbon::parse($history->created_at)->format('d M Y, h:i A') }}
+                                                                            </td>
+                                                                            <td>${{ $history->amount }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @else
+                                                            <div class="alert alert-info mb-0">No top up history found.
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -224,8 +375,8 @@
     </div>
 
     <!-- Deposit Wizard Modal -->
-    <div class="modal fade" id="depositWizardModal" tabindex="-1" role="dialog" aria-labelledby="depositWizardModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="depositWizardModal" tabindex="-1" role="dialog"
+        aria-labelledby="depositWizardModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content" style="border-radius: 12px;">
                 <div class="modal-body" style="background: #f7f9fb;">
@@ -253,7 +404,8 @@
                         <div class="row ">
                             <!-- Left: Main Content -->
                             <div class="col-md-8 card p-3">
-                                <form action="{{route('wallet.balance.store')}}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('wallet.balance.store') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
 
                                     <!-- Step 1: Bank Info -->
@@ -270,10 +422,12 @@
                                                             <img src="https://i.ibb.co/6b8Qw7d/dbbl.png" alt="DBBL"
                                                                 width="36" class="mr-2">
                                                             <div>
-                                                                <div class="text-muted" style="font-size:12px;">ID: PA13</div>
+                                                                <div class="text-muted" style="font-size:12px;">ID: PA13
+                                                                </div>
                                                                 <div class="font-weight-bold">Dutch Bangla Bank</div>
                                                                 <div style="font-size:13px;">1201100188003</div>
-                                                                <div class="text-muted" style="font-size:12px;">Khulna</div>
+                                                                <div class="text-muted" style="font-size:12px;">Khulna
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -283,10 +437,12 @@
                                                             <img src="https://i.ibb.co/0jQw7dC/ucb.png" alt="UCB"
                                                                 width="36" class="mr-2">
                                                             <div>
-                                                                <div class="text-muted" style="font-size:12px;">ID: PA08</div>
+                                                                <div class="text-muted" style="font-size:12px;">ID: PA08
+                                                                </div>
                                                                 <div class="font-weight-bold">United Commercial</div>
                                                                 <div style="font-size:13px;">0612112000005521</div>
-                                                                <div class="text-muted" style="font-size:12px;">KHULNA &gt;
+                                                                <div class="text-muted" style="font-size:12px;">KHULNA
+                                                                    &gt;
                                                                     khanjan Ali</div>
                                                             </div>
                                                         </div>
@@ -312,9 +468,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Amount in BDT <span class="text-danger">*</span> </label>
-                                                    <input type="number" name="amount" value="{{old('amount')}}"
-                                                     class="form-control" id="amountBdt"
-                                                        placeholder="৳ Amount">
+                                                    <input type="number" name="amount" value="{{ old('amount') }}"
+                                                        class="form-control" id="amountBdt" placeholder="৳ Amount">
                                                     @error('amount')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
@@ -322,8 +477,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Trx ID or Reference <span class="text-danger">*</span></label>
-                                                    <input type="text" name="trx_id" value="{{old('trx_id')}}" class="form-control" id="trxId"
-                                                        placeholder="Transaction ID">
+                                                    <input type="text" name="trx_id" value="{{ old('trx_id') }}"
+                                                        class="form-control" id="trxId" placeholder="Transaction ID">
                                                     @error('trx_id')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
@@ -331,8 +486,10 @@
                                                 <div class="form-group">
                                                     <label>Receipt copy or screenshot</label>
                                                     <div class="custom-file">
-                                                        <input type="file" name="ss" class="custom-file-input" id="receiptFile">
-                                                        <label class="custom-file-label" for="receiptFile">Choose file</label>
+                                                        <input type="file" name="ss" class="custom-file-input"
+                                                            id="receiptFile">
+                                                        <label class="custom-file-label" for="receiptFile">Choose
+                                                            file</label>
                                                         @error('ss')
                                                             <p class="text-danger">{{ $message }}</p>
                                                         @enderror
@@ -340,7 +497,7 @@
                                                     <small id="fileName" class="form-text text-muted"></small>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            {{-- <div class="col-md-6">
                                                 <label>You will receive the amount in USD:</label>
                                                 <div class="p-4"
                                                     style="background:#f4f8fc; border:1.5px solid #bcd2f7; border-radius:8px;">
@@ -350,7 +507,7 @@
                                                         will expire on <span id="usdRateExpire">4/30/2025</span>.
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="d-flex justify-content-between mt-4">
                                             <button class="btn btn-secondary" id="backToStep1">&larr; Back</button>
@@ -371,11 +528,11 @@
                                                     <span id="summaryFile"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            {{-- <div class="col-md-6">
                                                 <h6>USD Amount:</h6>
                                                 <div style="font-size:2rem; font-weight:600;" id="summaryUsd">$0.00</div>
                                                 <div class="text-muted">Based on your current USD rate</div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="d-flex justify-content-between mt-4">
                                             <button class="btn btn-secondary" id="backToStep2">&larr; Back</button>
@@ -423,46 +580,50 @@
                     </button>
                 </div>
                 <div class="modal-body pt-0">
-                    <form id="adAccountForm" autocomplete="off" action="{{route('ad_account.store')}}" method="post">
+                    <form id="adAccountForm" autocomplete="off" action="{{ route('ad_account.store') }}"
+                        method="post">
                         @csrf
                         <div class="form-group">
                             <label class="mb-1">Suggested Ads Account Name<span class="text-danger">*</span></label>
-                            <input type="text" name="name" value="{{old('name')}}"
-                                class="form-control" placeholder="Insert suggested ads account name"
-                                required>
+                            <input type="text" name="name" value="{{ old('name') }}" class="form-control"
+                                placeholder="Insert suggested ads account name" required>
                             @error('name')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- BM ID --}}
                         <div class="form-group">
                             <label class="mb-1">Client's BM ID<span class="text-danger">*</span></label>
-                            <input type="text" name="bm_id" value="{{old('bm_id')}}"
-                                 class="form-control" placeholder="Insert BM ID of client" required>
+                            <input type="text" name="bm_id" value="{{ old('bm_id') }}" class="form-control"
+                                placeholder="Insert BM ID of client" required>
                             @error('bm_id')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        {{-- Credit line --}}
-                        <div class="form-group">
-                            <label class="mb-1">Credit Line<span class="text-danger">*</span></label>
-                            <input type="text" name="credit_line" value="{{old('credit_line')}}"
-                                 class="form-control" placeholder="Insert Credit Line Here" required>
-                            @error('credit_line')
-                                <p class="text-danger">{{$message}}</p>
-                            @enderror
-                        </div>
+                        <div class="">
+                            <p class="text-bold">Account Type<span class="text-danger">*</span>:</p>
+                            {{-- Credit line --}}
+                            <div class="pl-2 card border border-info p-2">
+                                <div class="form-group">
+                                    <input type="radio" id="credit_line" name="account_type" value="1"
+                                        @checked(old('account_type') == 1) class="" placeholder="Insert Credit Line Here"
+                                        required>
+                                    <label for="credit_line" class="mb-1">Credit Line</label>
+                                </div>
 
-                        {{-- Card Line --}}
-                        <div class="form-group">
-                            <label class="mb-1">Card Line<span class="text-danger">*</span></label>
-                            <input type="text" name="card_line" value="{{old('card_line')}}"
-                                 class="form-control" placeholder="Insert Card Line Here" required>
-                            @error('card_line')
-                                <p class="text-danger">{{$message}}</p>
-                            @enderror
+                                {{-- Card Line --}}
+                                <div class="form-group">
+                                    <input type="radio" name="account_type" id="card_line" value="2"
+                                        @checked(old('account_type') == 2) class="" placeholder="Insert Card Line Here"
+                                        required>
+                                    <label for="card_line" class="mb-1">Card Line</label>
+                                </div>
+                                @error('account_type')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
                         {{-- <div class="form-group">
                             <label class="mb-1">Timezone</label>
@@ -478,88 +639,89 @@
                         {{-- FB Page Link1 --}}
                         <div class="form-group">
                             <label class="mb-1">FB Page Link 1<span class="text-danger">*</span></label>
-                            <input type="url" name="fb_page_link1" value="{{old('fb_page_link1')}}"
-                                 class="form-control" placeholder="Insert fb page link here" required>
+                            <input type="url" name="fb_page_link1" value="{{ old('fb_page_link1') }}"
+                                class="form-control" placeholder="Insert fb page link here" required>
                             @error('fb_page_link1')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- FB Page Link2 --}}
                         <div class="form-group">
                             <label class="mb-1">FB Page Link 2</label>
-                            <input type="url" name="fb_page_link2" value="{{old('fb_page_link2')}}"
-                                 class="form-control" placeholder="Insert fb page link here" >
+                            <input type="url" name="fb_page_link2" value="{{ old('fb_page_link2') }}"
+                                class="form-control" placeholder="Insert fb page link here">
                             @error('fb_page_link2')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- FB Page Link3 --}}
                         <div class="form-group">
                             <label class="mb-1">FB Page Link 3</label>
-                            <input type="url" name="fb_page_link3" value="{{old('fb_page_link3')}}"
-                                 class="form-control" placeholder="Insert fb page link here" >
+                            <input type="url" name="fb_page_link3" value="{{ old('fb_page_link3') }}"
+                                class="form-control" placeholder="Insert fb page link here">
                             @error('fb_page_link3')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- FB Page Link4 --}}
                         <div class="form-group">
                             <label class="mb-1">FB Page Link 4</label>
-                            <input type="url" name="fb_page_link4" value="{{old('fb_page_link4')}}"
-                                 class="form-control" placeholder="Insert fb page link here" >
+                            <input type="url" name="fb_page_link4" value="{{ old('fb_page_link4') }}"
+                                class="form-control" placeholder="Insert fb page link here">
                             @error('fb_page_link4')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- FB Page Link5 --}}
                         <div class="form-group">
                             <label class="mb-1">FB Page Link 5</label>
-                            <input type="url" name="fb_page_link5" value="{{old('fb_page_link5')}}"
-                                 class="form-control" placeholder="Insert fb page link here">
+                            <input type="url" name="fb_page_link5" value="{{ old('fb_page_link5') }}"
+                                class="form-control" placeholder="Insert fb page link here">
                             @error('fb_page_link5')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- Website Link 1 --}}
                         <div class="form-group">
                             <label class="mb-1">Website Link 1<span class="text-danger">*</span></label>
-                            <input type="url" name="website_link1" value="{{old('website_link1')}}"
-                                 class="form-control" placeholder="Insert website link here" required>
+                            <input type="url" name="website_link1" value="{{ old('website_link1') }}"
+                                class="form-control" placeholder="Insert website link here" required>
                             @error('website_link1')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         {{-- Website Link 2 --}}
                         <div class="form-group">
                             <label class="mb-1">Website Link 2</label>
-                            <input type="url" name="website_link2" value="{{old('website_link2')}}"
-                                 class="form-control" placeholder="Insert website link here">
+                            <input type="url" name="website_link2" value="{{ old('website_link2') }}"
+                                class="form-control" placeholder="Insert website link here">
                             @error('website_link2')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
 
                         <div class="form-group">
                             <label class="mb-1">Monthly Budget<span class="text-danger">*</span> </label>
-                            <input type="number" name="monthly_budget" value="{{old('monthly_budget')}}" class="form-control" placeholder="$" min="0" required>
+                            <input type="number" name="monthly_budget" value="{{ old('monthly_budget') }}"
+                                class="form-control" placeholder="$" min="0" required>
                             @error('monthly_budget')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="mb-1">Campaign Start Date</label>
-                            <input type="date" name="campaign_start_date" value="{{old('campaign_start_date')}}" class="form-control"
-                                placeholder="Enter the campaign start date for the ad account">
+                            <input type="date" name="campaign_start_date" value="{{ old('campaign_start_date') }}"
+                                class="form-control" placeholder="Enter the campaign start date for the ad account">
                             @error('campaign_start_date')
-                                <p class="text-danger">{{$message}}</p>
+                                <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary btn-block font-weight-bold"
@@ -586,9 +748,9 @@
                     </button>
                 </div>
                 <div class="modal-body pt-0">
-                    <form id="topupForm" action="{{route('ad_account.topup')}}" method="POST" autocomplete="off">
+                    <form id="topupForm" action="{{ route('ad_account.topup') }}" method="POST" autocomplete="off">
                         @csrf
-                        <input type="hidden" name="balance_id" id="balance_id" >
+                        <input type="hidden" name="balance_id" id="balance_id">
                         <div class="form-group">
                             <label class="mb-1">Add Account</label>
                             <input type="text" class="form-control" id="topupAccount" readonly>
@@ -599,15 +761,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <input type="number" name="amount" class="form-control" id="topupAmount" placeholder="Enter amount"
-                                    min="0" required>
+                                <input type="number" name="amount" class="form-control" id="topupAmount"
+                                    placeholder="Enter amount" min="0" required>
                                 @error('amount')
-                                    <p class="text-danger">{{$message}}</p>
+                                    <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary font-weight-bold"
-                            style="font-size: 1.1rem;">
+                        <button type="submit" class="btn btn-primary font-weight-bold" style="font-size: 1.1rem;">
                             Top Up
                         </button>
                     </form>
@@ -615,6 +776,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <!-- Wizard Stepper Styles -->
 @endsection
@@ -758,8 +922,8 @@
             // });
         });
 
-        $(document).ready(function(){
-            setTimeout(function(){
+        $(document).ready(function() {
+            setTimeout(function() {
                 $('.errorToast').toast('hide');
             }, 4000);
         });
@@ -856,6 +1020,16 @@
             background: #23408e;
             border-color: #23408e;
             border-radius: 8px;
+        }
+
+        .dropdown-menu {
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.15);
+        }
+
+        .dropdown-item i {
+            width: 18px;
+            text-align: center;
         }
     </style>
 @endpush

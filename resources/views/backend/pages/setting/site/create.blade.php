@@ -25,22 +25,38 @@
                         @include('backend.partial.flush-message')
                         <form action="{{route('setting.site.store')}}" method="POST">
                             @csrf
-                            @foreach ($services as $key => $service)
-                            <hr> <h2>{{ $service->first()->mainKey->name }}</h2> <hr>
-                                <div class="custom-control custom-checkbox d-flex justify-content-around my-1 mr-sm-2 @if(!$loop->last) mb-5 @endif">
-                                    @foreach ($service as $value)
-                                        <div>
-                                            <input type="checkbox" name="service_id[{{$key.$loop->index}}]"
-                                                class="custom-control-input" id="add{{ $key.$loop->index }}" value="{{ $value->id }}"
-                                                @if ($value->hasService()) checked @endif>
-                                            <label class="custom-control-label ml-2"
-                                                for="add{{ $key.$loop->index }}">{{ $value->name }}</label>
+                            {{-- @foreach ($services as $key => $service) --}}
+                            <hr>
+                            <h2 class="text-center mb-4">Global Settings</h2>
+                            <hr>
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body">
+                                    {{-- <form> --}}
+                                        <div class="form-row align-items-center justify-content-center">
+                                            <div class="col-auto">
+                                                <label for="dollar_rate" class="col-form-label font-weight-bold mr-2">
+                                                    <i class="fas fa-dollar-sign text-success"></i> Dollar Rate:
+                                                </label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input
+                                                    type="number"
+                                                    name="dollar_rate"
+                                                    class="form-control"
+                                                    id="dollar_rate"
+                                                    value="{{ $site_setting->dollar_rate }}"
+                                                    min="0"
+                                                    step="0.01"
+                                                    placeholder="Enter dollar rate"
+                                                    style="max-width: 180px;"
+                                                >
+                                            </div>
                                         </div>
-                                    @endforeach
+                                    {{-- </form> --}}
                                 </div>
-                            @endforeach
-                            <hr class=" mt-5">
-                            <button class="btn btn-info w-100">Save Settings</button>
+                            </div>
+                            <hr class="mt-5">
+                            <button type="submit" class="btn btn-info w-100">Save Settings</button>
                         </form>
                     </div>
                 </div>

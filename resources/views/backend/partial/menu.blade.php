@@ -8,10 +8,30 @@
 @endif
 
 
+{{-- @if ($n = check('User Creation'))
+    <li class="nav-item {{ Request::is('customer/*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link">
+            <i class="fa-solid fa-user"></i>
+            <p>Customers <i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+            @if ($n->show)
+                <li class="nav-item">
+                    <a href="{{ route('customer.index') }}"
+                        class="nav-link {{ Request::is('customer/index') ? 'active' : '' }}">
+                        <i class="nav-icon far fa-circle"></i>
+                        <p>Show customers</p>
+                    </a>
+                </li>
+            @endif
+
+        </ul>
+    </li>
+@endif --}}
 
 
-{{-- Shipping Management  --}}
-@if ($n =check('Wallet'))
+{{-- Wallet Management  --}}
+@if ($n = check('Wallet'))
     <li class="nav-item {{ Request::is('wallet/*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
             <i class="fa-solid fa-truck-fast"></i>
@@ -45,12 +65,12 @@
 @endif
 
 {{-- Ad Account Management  --}}
-@if ($n =check('Ad Account'))
+@if ($n = check('Ad Account'))
     <li class="nav-item {{ Request::is('ad-account/*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link">
             <i class="fa-solid fa-blog"></i>
             <p>
-               Customer's Ad Account
+                Customer's Ad Account
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>
@@ -125,8 +145,7 @@
             @endif
             @if ($n = check('Features'))
                 <li class="nav-item {{ Request::is('setting/features*') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="fa-solid fa-pause"></i>
                         <p>Features <i class="fas fa-angle-left right"></i></p>
                     </a>
@@ -152,10 +171,9 @@
                     </ul>
                 </li>
             @endif
-            @if ($n = check('Role'))
+            {{-- @if ($n = check('Role'))
                 <li class="nav-item {{ Request::is('setting/role/*') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="fa-solid fa-dice-d6"></i>
                         <p>Role <i class="fas fa-angle-left right"></i></p>
                     </a>
@@ -180,13 +198,12 @@
                         @endif
                     </ul>
                 </li>
-            @endif
+            @endif --}}
             @if ($n = check('User Creation'))
                 <li class="nav-item {{ Request::is('setting/user/*') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="fa-solid fa-user"></i>
-                        <p>User Creation <i class="fas fa-angle-left right"></i></p>
+                        <p>Users <i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         @if ($n->show)
@@ -223,5 +240,3 @@
         </ul>
     </li>
 @endif
-
-

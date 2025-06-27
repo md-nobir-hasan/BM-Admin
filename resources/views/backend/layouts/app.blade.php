@@ -116,6 +116,30 @@
 
         // ============================================ End ========================
     </script>
+    <script>    
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(function() {
+                    alert('Link copied to clipboard!');
+                }, function() {
+                    alert('Failed to copy link.');
+                });
+            } else {
+                // Fallback for older browsers
+                var tempInput = document.createElement('input');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    alert('Link copied to clipboard!');
+                } catch (err) {
+                    alert('Failed to copy link.');
+                }
+                document.body.removeChild(tempInput);
+            }
+        }
+        </script>
     @stack('third_party_scripts')
 
     @stack('page_scripts')

@@ -28,6 +28,8 @@ class User extends Authenticatable
         'role_id',
         'email_verified_at',
         'password',
+        'is_approved',
+        'status'
     ];
 
     /**
@@ -49,7 +51,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['status_formatted'];
+
     public function role(){
         return $this->belongsTo(Role::class,'role_id');
+    }
+
+    public function getStatusFormattedAttribute() {
+        return match($this->status){
+            1 => 'Active',
+            2 => 'Disable',
+            3 => "Closed",
+            default => 'Unknown'
+        };
+    }
+
+    public function topup_histories(){
+        return $this->hasMany(TopupHistory::class,'use_id','id');
     }
 }

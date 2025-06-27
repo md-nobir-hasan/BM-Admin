@@ -44,6 +44,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Admin home
     Route::get('/', [HomeController::class, 'home'])->name('admin');
 
+    //Customer Management
+    Route::group(['as' => 'customer.', 'prefix' => 'customer'], function () {
+        Route::get('/index', [SettingController::class, 'CustomerIndex'])->name('index');
+    });
 
     //company details
     Route::get('company-details/index', [CompanyDetailsController::class, 'create'])->name('company-details.index');
@@ -60,6 +64,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [AdAccountController::class, 'store'])->name('store');
         Route::put('/{id}/ajax-update', [AdAccountController::class, 'ajaxUpdate'])->name('ajaxUpdate');
         Route::post('/topup', [AdAccountController::class, 'topup'])->name('topup');
+    });
+    //Ad account Management
+    Route::group(['as' => 'bm.', 'prefix' => 'bm'], function () {
+        Route::post('/store', [AdAccountController::class, 'bmStore'])->name('store');
+        Route::post('/rmove', [AdAccountController::class, 'bmRemove'])->name('delete');
     });
 
     //Add Ballance to wallet Mangement
@@ -135,6 +144,7 @@ Route::group(['middleware' => ['auth']], function () {
         //user
         Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
             Route::get('/index', [SettingController::class, 'userIndex'])->name('index');
+            Route::get('/customers', [SettingController::class, 'CustomerIndex'])->name('customer');
             Route::get('/create/{id?}', [SettingController::class, 'userCreate'])->name('create');
             Route::post('/store', [SettingController::class, 'userStore'])->name('store');
             Route::get('/destroy/{id}', [SettingController::class, 'userDestroy'])->name('destroy');

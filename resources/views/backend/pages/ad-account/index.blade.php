@@ -27,12 +27,14 @@
                     <div class="card-body">
                         <h1>Pending Ad accounts</h1>
                         <div class="table-responsive">
-                            <table id="table" class="table table-striped">
+                            <table id="table" class="table table-striped table-responsive">
                                 <thead>
                                     <tr>
                                         <th>SL</th>
                                         <th>Customer Name</th>
                                         <th>Account Name</th>
+                                        <th>Account Type</th>
+                                        <th>Dollar Rate</th>
                                         <th>BM ID</th>
                                         <th>Monthly Budget</th>
                                         <th>FB Page Links</th>
@@ -48,6 +50,8 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $pad_account->user->name }}</td>
                                             <td>{{ $pad_account->name }}</td>
+                                            <td>{{ $pad_account->account_type_formatted }}</td>
+                                            <td>{{ $pad_account->dollar_rate }}</td>
                                             <td> {{$pad_account->bm_id}} </td>
                                             <td>{{ $pad_account->monthly_budget }}</td>
                                             <td>
@@ -68,7 +72,9 @@
                                                 <div class="btn-group">
                                                     <a href="javascript:void(0);"
                                                         class="btn btn-dark btnEdit @if (!check('Ad Account')->edit) d-none @endif"
-                                                        data-id="{{ $pad_account->id }}" data-accountname="{{ $pad_account->name }}"
+                                                        data-id="{{ $pad_account->id }}"
+                                                        data-accountname="{{ $pad_account->name }}"
+                                                        data-dollar_rate="{{ $pad_account->dollar_rate }}"
                                                         data-status="{{ $pad_account->status }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
@@ -99,6 +105,8 @@
                                         <th>SL</th>
                                         <th>Customer Name</th>
                                         <th>Account Name</th>
+                                        <th>Account Type</th>
+                                        <th>Dollar Rate</th>
                                         <th>BM ID</th>
                                         <th>Monthly Budget</th>
                                         <th>FB Page Links</th>
@@ -114,18 +122,20 @@
                                         <td>{{ $bkey + 1 }}</td>
                                         <td>{{ $ad_account->user->name }}</td>
                                         <td>{{ $ad_account->name }}</td>
+                                        <td>{{ $ad_account->account_type_formatted }}</td>
+                                        <td>{{ $ad_account->dollar_rate }}</td>
                                         <td> {{$ad_account->bm_id}} </td>
                                         <td>{{ $ad_account->monthly_budget }}</td>
                                         <td>
-                                            <a target="_blank" href="{{ $ad_account->fb_page_link1 }}">Page 1</a>
-                                            @if ($ad_account->fb_page_link2), <a href="{{$ad_account->fb_page_link2}}" target="_blank">Page 2</a> @endif
-                                            @if ($ad_account->fb_page_link3), <a href="{{$ad_account->fb_page_link3}}" target="_blank">Page 3</a> @endif
-                                            @if ($ad_account->fb_page_link4), <a href="{{$ad_account->fb_page_link4}}" target="_blank">Page 4</a> @endif
-                                            @if ($ad_account->fb_page_link5), <a href="{{$ad_account->fb_page_link5}}" target="_blank">Page 5</a> @endif
+                                            <a target="_blank" href="{{ $ad_account->fb_page_link1 }}">Page 1 </a> <x-button> {{$ad_account->fb_page_link1}} </x-button>
+                                            @if ($ad_account->fb_page_link2), <a href="{{$ad_account->fb_page_link2}}" target="_blank">Page 2</a><x-button> {{$ad_account->fb_page_link2}} </x-button> @endif
+                                            @if ($ad_account->fb_page_link3), <a href="{{$ad_account->fb_page_link3}}" target="_blank">Page 3</a><x-button> {{$ad_account->fb_page_link3}} </x-button> @endif
+                                            @if ($ad_account->fb_page_link4), <a href="{{$ad_account->fb_page_link4}}" target="_blank">Page 4</a><x-button> {{$ad_account->fb_page_link4}} </x-button> @endif
+                                            @if ($ad_account->fb_page_link5), <a href="{{$ad_account->fb_page_link5}}" target="_blank">Page 5</a><x-button> {{$ad_account->fb_page_link5}} </x-button> @endif
                                         </td>
                                         <td>
-                                            <a target="_blank" href="{{ $ad_account->website_link1 }}">Website 1</a>
-                                            @if ($ad_account->website_link2), <a href="{{$ad_account->website_link2}}" target="_blank">Website 2</a> @endif
+                                            <a target="_blank" href="{{ $ad_account->website_link1 }}">Website 1</a><x-button> {{$ad_account->website_link1}} </x-button>
+                                            @if ($ad_account->website_link2), <a href="{{$ad_account->website_link2}}" target="_blank">Website 2</a><x-button> {{$ad_account->website_link2}} </x-button> @endif
 
                                         </td>
                                         <td>{{ $ad_account->status_formatted }}</td>
@@ -134,7 +144,9 @@
                                             <div class="btn-group">
                                                 <a href="javascript:void(0);"
                                                     class="btn btn-dark btnEdit @if (!check('Ad Account')->edit) d-none @endif"
-                                                    data-id="{{ $ad_account->id }}" data-accountname="{{ $ad_account->name }}"
+                                                    data-id="{{ $ad_account->id }}"
+                                                    data-accountname="{{ $ad_account->name }}"
+                                                    data-dollar_rate="{{ $ad_account->dollar_rate }}"
                                                     data-status="{{ $ad_account->status }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
@@ -179,6 +191,10 @@
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dollar_rate">Name</label>
+                            <input type="number" class="form-control" id="dollar_rate" name="dollar_rate" required>
                         </div>
                         <div class="form-group">
                             <label for="status">is approved</label>
@@ -235,10 +251,12 @@
             $('.btnEdit').on('click', function() {
                 var id = $(this).data('id');
                 var account_name = $(this).data('accountname');
+                var dollar_rate = $(this).data('dollar_rate');
                 var status = $(this).data('status');
 
                 $('#ad_account_id').val(id);
                 $('#name').val(account_name);
+                $('#dollar_rate').val(Number(dollar_rate));
                 $('#status').val(status);
 
                 $('#editAccountErrors').addClass('d-none').empty();
@@ -260,10 +278,12 @@
                         $('#editAdAccountModel').modal('hide');
                         var row = $('a[data-id="' + id + '"]').closest('tr');
                         row.find('td').eq(2).text($('#name').val());
-                        row.find('td').eq(7).text(statusText($('#status').val()));
+                        row.find('td').eq(4).text($('#dollar_rate').val());
+                        row.find('td').eq(9).text(statusText($('#status').val()));
                         // Update data-attributes on the edit button
                         var btnEdit = row.find('.btnEdit');
                             btnEdit.data('accountname', $('#name').val());
+                            btnEdit.data('dollar_rate', $('#dollar_rate').val());
                             btnEdit.data('status', $('#status').val());
 
                         showToast('Account updated successfully!', 'success');

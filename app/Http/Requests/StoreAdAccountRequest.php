@@ -27,8 +27,7 @@ class StoreAdAccountRequest extends FormRequest
         return [
             'name' => ['required','string','max:255'],
             'bm_id' => ['required','string','max:255'],
-            'credit_line'=> ['required','string','max:255'],
-            'card_line'=> ['required','string','max:255'],
+            'account_type'=> ['required','integer',"in:1,2"],   
 
             'fb_page_link1'=> ['required','string','max:255'],
             'fb_page_link2'=> ['nullable','string','max:255'],

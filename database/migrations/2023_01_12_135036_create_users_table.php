@@ -22,10 +22,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique();
             $table->float('dollar_rate')->default(0.00);
-            $table->float('current_balance')->default(0.00);
+            // $table->float('current_balance')->default(0.00);
             $table->unsignedBigInteger('role_id')->default(2);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_approved')->default(false);
+            $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

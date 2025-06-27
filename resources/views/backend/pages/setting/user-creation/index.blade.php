@@ -38,6 +38,9 @@
                                     <th>Role</th>
                                     <th>Phone</th>
                                     <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Is approved</th>
+                                    <th>Dollar Rate</th>
                                     <th class="@if (!check('User Creation')->edit && !check('User Creation')->delete) d-none @endif"
                                         id="action">Action</th>
                                 </tr>
@@ -51,6 +54,9 @@
                                     <td>{{ $user->role->name }}</td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->status_formatted }}</td>
+                                    <td>{{ $user->is_approved ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $user->dollar_rate }}</td>
                                     <td class="@if (!check('User Creation')->edit && !check('User Creation')->delete) d-none @endif">
                                         <a href="{{ route('setting.user.destroy', $user->id) }}" class="btn btn-danger btn-sm @if (!check('User Creation')->edit) d-none @endif"><i class="fas fa-trash"></i></a>
 

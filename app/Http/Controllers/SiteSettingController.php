@@ -34,7 +34,7 @@ class SiteSettingController extends Controller
         if(!check('Site Setting')->add){
             return back();
         }
-        $n['services'] = Service::with(['mainKey'])->where('status',1)->orderBy('id','desc')->get()->groupBy('main_key_id');
+        $n['site_setting'] = SiteSetting::first();
         return view('backend.pages.setting.site.create',$n);
     }
 
@@ -49,14 +49,12 @@ class SiteSettingController extends Controller
         if(!check('Site Setting')->add){
             return back();
         }
-        SiteSetting::where('user_id',Auth::user()->id)->where('status',1)->delete();
 
-        foreach($request->service_id as $value){
-            $insert = new SiteSetting();
-            $insert->user_id = Auth::user()->id;
-            $insert->service_id = $value;
+        // foreach($request->service_id as $value){
+            $insert = SiteSetting::first();
+            $insert->dollar_rate = $request->dollar_rate;
             $insert->save();
-        }
+        // }
 
         return redirect()->back()->with('success','Stting seved successfully');
     }

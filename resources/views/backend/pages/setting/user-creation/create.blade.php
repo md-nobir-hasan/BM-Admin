@@ -34,8 +34,7 @@
                                 <form method="POST" action="{{ route('setting.user.store') }}">
                                     @csrf
 
-                                    <input type="hidden" name='user_id'
-                                        @isset($user)  value="{{ $user->id }}" @endisset>
+                                    <input type="hidden" name='user_id' value="{{ $user->id }}">
 
                                     <div class="form-group">
                                         <label for="user" class="col-form-label">User name<span
@@ -71,6 +70,43 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="dollar_rate" class="col-form-label">Dollar Rate<span
+                                                class="text-danger">*</span></label>
+                                        <input id="dollar_rate" type="numer" name="dollar_rate" placeholder="Enter a dollar_rate"
+                                            @if (isset($user)) value="{{ $user->dollar_rate }}" @else value="{{ old('dollar_rate') }}" @endif
+                                             class="form-control" required>
+                                        @error('dollar_rate')
+                                            <p class="text-danger fst-italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input id="is_approved" type="checkbox" name="is_approved"
+                                        placeholder="Enter a is_approved" required
+                                        @checked($user->is_approved)>
+                                        <label for="is_approved" class="col-form-label">Is Approved<span
+                                        class="text-danger">*</span></label>
+                                        @error('is_approved')
+                                            <p class="text-danger fst-italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="status" class="col-form-label">Status<span
+                                                class="text-danger">*</span></label>
+                                             <select name="status" id="status" class="form-control">
+                                                <option value="" hidden>Select a status</option>
+                                                @foreach ([1=>'Active',2=>'Disable',3=>'Close'] as $key => $status)
+                                                    <option value="{{$key}}" @if($user->status == $key) selected @endif>{{$status}}</option>
+                                                @endforeach
+                                             </select>
+                                        @error('status')
+                                            <p class="text-danger fst-italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+
+                                    {{-- <div class="form-group">
                                         <label for="role" class="col-form-label">User role<span
                                                 class="text-danger">*</span></label>
                                              <select name="role_id" id="role" class="form-control">
@@ -82,18 +118,18 @@
                                         @error('role')
                                             <p class="text-danger fst-italic">{{ $message }}</p>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="address" class="col-form-label">User Address<span
                                                 class="text-danger">*</span></label>
                                              <textarea name="address" id="address" cols="15" rows="6" class="form-control" placeholder="Enter User Address"></textarea>
                                         @error('address')
                                             <p class="text-danger fst-italic">{{ $message }}</p>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="password" class="col-form-label">Password<span
                                                 class="text-danger">*</span></label>
                                         <input id="password" type="password" name="password" placeholder="Enter a password"
@@ -113,7 +149,7 @@
                                         @error('confirm_password')
                                             <p class="text-danger fst-italic">{{ $message }}</p>
                                         @enderror
-                                    </div>
+                                    </div>  --}}
 
                                     <div class="form-group mb-3">
                                         <button class="btn btn-success w-100" type="submit">Submit</button>

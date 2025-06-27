@@ -24,8 +24,9 @@ class userSeeder extends Seeder
                         'email' => "nobir.wd@gmail.com",
                         'phone' => "01518460933",
                         'dollar_rate' => 130,
-                        'current_balance' => 10000,
+                        // 'current_balance' => 10000,
                         'role_id' => 1,
+                        'is_approved'=>true,
                         'password' => Hash::make(1988406007),
                     ],
                     [
@@ -36,8 +37,9 @@ class userSeeder extends Seeder
                         'email' => "customer@gmail.com",
                         'phone' => "01518460934",
                         'dollar_rate' => 130,
-                        'current_balance' => 10000,
-                        'role_id' => 1,
+                        // 'current_balance' => 10000,
+                        'role_id' => 2,
+                        'is_approved'=>true,
                         'password' => Hash::make(1111),
                     ]
                 ];
