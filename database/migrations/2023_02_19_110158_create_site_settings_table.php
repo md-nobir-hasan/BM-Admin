@@ -15,14 +15,8 @@ class CreateSiteSettingsTable extends Migration
     {
         Schema::create('site_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('service_id');
-            $table->integer('status')->default(1);
+            $table->float('dollar_rate')->default(130);
             $table->timestamps();
-        });
-        Schema::table('site_settings', function (Blueprint $table) {
-            $table->foreign('user_id', 'site_settings_user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('service_id', 'site_settings_service_id')->references('id')->on('services')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

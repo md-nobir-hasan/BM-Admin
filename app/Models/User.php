@@ -57,7 +57,7 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class,'role_id');
     }
 
-    public function getAttributeStatusFormatted(){
+    public function getStatusFormattedAttribute() {
         return match($this->status){
             1 => 'Active',
             2 => 'Disable',

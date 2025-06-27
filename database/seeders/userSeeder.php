@@ -38,7 +38,7 @@ class userSeeder extends Seeder
                         'phone' => "01518460934",
                         'dollar_rate' => 130,
                         'current_balance' => 10000,
-                        'role_id' => 1,
+                        'role_id' => 2,
                         'is_approved'=>true,
                         'password' => Hash::make(1111),
                     ]

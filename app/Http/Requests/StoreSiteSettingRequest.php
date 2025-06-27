@@ -24,7 +24,7 @@ class StoreSiteSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id.*' =>'required|exists:services,id',
+            'dollar_rate' =>'required|numeric',
             ];
     }
 }

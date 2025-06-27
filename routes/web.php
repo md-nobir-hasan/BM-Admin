@@ -44,6 +44,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Admin home
     Route::get('/', [HomeController::class, 'home'])->name('admin');
 
+    //Customer Management
+    Route::group(['as' => 'customer.', 'prefix' => 'customer'], function () {
+        Route::get('/index', [SettingController::class, 'CustomerIndex'])->name('index');
+    });
 
     //company details
     Route::get('company-details/index', [CompanyDetailsController::class, 'create'])->name('company-details.index');
@@ -135,6 +139,7 @@ Route::group(['middleware' => ['auth']], function () {
         //user
         Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
             Route::get('/index', [SettingController::class, 'userIndex'])->name('index');
+            Route::get('/customers', [SettingController::class, 'CustomerIndex'])->name('customer');
             Route::get('/create/{id?}', [SettingController::class, 'userCreate'])->name('create');
             Route::post('/store', [SettingController::class, 'userStore'])->name('store');
             Route::get('/destroy/{id}', [SettingController::class, 'userDestroy'])->name('destroy');

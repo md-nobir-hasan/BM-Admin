@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccountApproveEmail;
+use App\Mail\WelcomeEmail;
 use App\Models\Feature;
 use App\Models\Permission;
 use App\Models\Role;
@@ -10,6 +12,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SettingController extends Controller
 {
@@ -129,7 +133,17 @@ class SettingController extends Controller
             return back();
         }
 
-        $n['users'] = User::get();
+        $n['users'] = User::orderBy('role_id')->get();
+        return view('backend.pages.setting.user-creation.index', $n);
+    }
+    //=============================== User Management =============================
+    public function customerIndex()
+    {
+        if(!check('User Creation')->show){
+            return back();
+        }
+
+        $n['users'] = User::where('role_id','=',2)->get();
         return view('backend.pages.setting.user-creation.index', $n);
     }
 
@@ -171,19 +185,31 @@ class SettingController extends Controller
         //     "group_id" => "Group",
         //     "teacher_id" => "Teacher"
         // ]);
-        $insert = new User();
+
 
         if ($req->user_id) {
             $insert = User::find($req->user_id);
+        }else{
+            $insert = new User();
         }
 
         $insert->name = $req->name;
         $insert->email = $req->email;
         $insert->phone = $req->phone;
-        $insert->address = $req->address;
-        $insert->role_id = $req->role_id;
-        $insert->password = Hash::make($req->password);
+        $insert->status = $req->status;
+        $insert->is_approved = $req->is_approved ? true : false;
+
+        // $insert->role_id = $req->role_id;
+        // $insert->password = Hash::make($req->password);
         $insert->save();
+        if($req->is_approved){
+            // Send welcome email
+            try{
+                Mail::to($req->email)->send(new AccountApproveEmail($insert));
+            }catch(\Exception $e){
+                Log::error("Welcome mail can't send. The error is: " . $e->getMessage());
+            }
+        }
 
         if ($req->user_id) {
             return redirect()->route('setting.user.index')->with('User successfully Updated');
