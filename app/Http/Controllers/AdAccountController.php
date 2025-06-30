@@ -19,7 +19,7 @@ class AdAccountController extends Controller
     public function index()
     {
         $n['pending_ad_accounts'] = AdAccount::with('user')->where('status',2)->orderBy('id', 'desc')->get();
-        $n['ad_accounts'] = AdAccount::with('user')->where('status','!=',2)->orderBy('id', 'desc')->get();
+        $n['ad_accounts'] = AdAccount::with('user')->where('status','!=',2)->orderBy('name', 'desc')->get();
 
         return view('backend.pages.ad-account.index', $n);
     }
