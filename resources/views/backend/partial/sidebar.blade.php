@@ -1,8 +1,13 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <style>
+        .logflex{
+            display: flex !important
+        }
+    </style>
     @php
         $company_info = App\Models\CompanyInfo::first();
     @endphp
-    <a href="{{ route('admin') }}" target="blank" class="brand-link text-center">
+    <a href="{{ route('admin') }}" target="blank" class="brand-link text-center logflex">
         <img src="{{ asset($company_info->logo) }}"
             alt="" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-light">
