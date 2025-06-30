@@ -42,7 +42,7 @@ class AdAccount extends Model
     }
 
     public function bms(){
-        return $this->hasMany(BM::class,'ad_account_id','id');
+        return $this->hasMany(Bm::class,'ad_account_id','id');
     }
 
     public function real_balance(){
