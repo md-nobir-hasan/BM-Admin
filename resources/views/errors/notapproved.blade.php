@@ -49,18 +49,49 @@
         .btn:hover {
             background: #2779bd;
         }
+        .text-left{
+            text-align: left;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #3490dc;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 4px 0;
+            transition: color 0.2s;
+        }
+        .contact-link:hover {
+            color: #2779bd;
+            text-decoration: underline;
+        }
+        .contact-icon {
+            font-size: 1.1em;
+            margin-right: 4px;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <div class="card">
         <h2>Account Pending Approval</h2>
         <p>
-            Thank you for registering!<br>
-            Your account is currently <strong>awaiting admin approval</strong>.<br>
+            <strong>Thank you for registering!</strong><br>
+            Your account is currently <span style="color:#e3342f;font-weight:bold;">awaiting admin approval</span>.<br>
             You will be notified by email once your account is activated.<br><br>
-            If you have any questions, please contact our support team.
+            <span style="color:#222;font-weight:500;">If you have any questions, please contact our support team:</span><br>
+            <a href="tel:{{$site_contact_info->phone}}" class="contact-link">
+                <i class="fas fa-phone contact-icon"></i>
+                <span>Phone: <strong>{{$site_contact_info->phone}}</strong></span>
+            </a>
+            <br>
+            <a href="mailto:{{$site_contact_info->email}}" class="contact-link">
+                <i class="fas fa-envelope contact-icon"></i>
+                <span>Email: <strong>{{$site_contact_info->email}}</strong></span>
+            </a>
         </p>
-        {{-- <a href="{{ url('/') }}" class="btn">Back to Home</a> --}}
+        <a href="{{ url('/') }}" class="btn" style="margin-top:10px;">Refresh</a>
     </div>
 </body>
 </html>
