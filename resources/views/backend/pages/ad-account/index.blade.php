@@ -193,7 +193,7 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="dollar_rate">Name</label>
+                            <label for="dollar_rate">Dollar Rate</label>
                             <input type="number" class="form-control" id="dollar_rate" name="dollar_rate" required>
                         </div>
                         <div class="form-group">
