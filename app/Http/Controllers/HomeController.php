@@ -17,7 +17,7 @@ class HomeController extends Controller
     }
     public function home()
     {
-        if(!auth()->user()->is_approved){
+        if(!auth()->user()?->is_approved){
            return view('errors.notapproved');
         }
         $n['wallet'] = Wallet::where('user_id',auth()->user()->id)->where('status',1)->latest()->get();
