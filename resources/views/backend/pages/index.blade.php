@@ -162,15 +162,15 @@
                     <div>
                         <input type="text" class="form-control d-inline-block" style="width: 200px;"
                             placeholder="Search ad accounts">
-                        <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#createAdAccountModal">Create
-                            Ad Account +</button>
+                        <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#createAdAccountModal">Add
+                            a new BM +</button>
                     </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="thead-light">
                             <tr>
-                                <th>Ad Account</th>
+                                <th>Ad Accounts</th>
                                 <th>Connected BM</th>
                                 <th>Balance</th>
                                 <th>Dollar Rate</th>
@@ -573,7 +573,7 @@
             <div class="modal-content" style="border-radius: 18px; max-width: 430px; margin: auto;">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title w-100 text-center font-weight-bold" id="createAdAccountModalLabel"
-                        style="font-size: 1.5rem;">Create new ad account</h5>
+                        style="font-size: 1.5rem;">Add new BM</h5>
                     <button type="button" class="close position-absolute" style="right: 18px;" data-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true" style="font-size: 2rem;">&times;</span>
