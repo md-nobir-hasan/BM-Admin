@@ -19,7 +19,7 @@ class WalletController extends Controller
      */
     public function index()
     {
-        if(!check('Wallet')->show){
+        if(!check('Wallet')?->show){
             return back();
         }
 
